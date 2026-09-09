@@ -12,6 +12,7 @@ export class Auth {
   constructor(private http: HttpClient) {}
 
   connexion(email: string, motDePasse: string): Observable<string> {
+
     return this.http.post(
       this.apiUrl,
       {
@@ -22,6 +23,7 @@ export class Auth {
         responseType: 'text'
       }
     );
+
   }
 
 }

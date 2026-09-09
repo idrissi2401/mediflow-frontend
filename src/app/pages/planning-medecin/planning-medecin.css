@@ -1,0 +1,362 @@
+:host {
+  display: block;
+  font-family: Arial, sans-serif;
+  color: #0f1b3d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.planning-page {
+  min-height: 100vh;
+  display: flex;
+  background: #ffffff;
+}
+
+
+/* =========================
+   BARRE LATÉRALE
+========================= */
+
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  border-right: 1px solid #e2e8f0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 18px;
+}
+
+.logo {
+  margin-bottom: 50px;
+}
+
+.logo img {
+  width: 190px;
+  max-width: 100%;
+  display: block;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-item {
+  height: 55px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0 18px;
+  border-radius: 8px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.menu-item.active {
+  background: #0796a0;
+  color: #ffffff;
+}
+
+.menu-icon {
+  font-size: 22px;
+}
+
+.logout-button {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: none;
+  background: transparent;
+  padding: 15px;
+  color: #475569;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   CONTENU PRINCIPAL
+========================= */
+
+.content {
+  flex: 1;
+  padding: 30px 38px;
+  overflow-x: auto;
+}
+
+
+/* =========================
+   EN-TÊTE
+========================= */
+
+.planning-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+
+.planning-header h1 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  color: #0f172a;
+}
+
+.planning-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.planning-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+/* =========================
+   BOUTONS DU PLANNING
+========================= */
+
+.navigation-button,
+.date-button,
+.view-select,
+.today-button {
+  height: 52px;
+  border: 1px solid #d8e0ea;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 15px;
+}
+
+.navigation-button {
+  width: 55px;
+  font-size: 32px;
+  color: #334155;
+  cursor: pointer;
+}
+
+.date-button {
+  min-width: 275px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  font-weight: 600;
+}
+
+.view-select {
+  width: 140px;
+  padding: 0 18px;
+  cursor: pointer;
+}
+
+.today-button {
+  padding: 0 25px;
+  border: none;
+  background: #0796a0;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.today-button:hover {
+  background: #07848d;
+}
+
+
+/* =========================
+   SÉLECTION DU MÉDECIN
+========================= */
+
+.doctor-select {
+  margin-bottom: 18px;
+}
+
+.doctor-select select {
+  width: 225px;
+  height: 52px;
+  padding: 0 18px;
+  border: 1px solid #d8e0ea;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+/* =========================
+   TABLEAU DU PLANNING
+========================= */
+
+.calendar {
+  width: 100%;
+  border: 1px solid #dce3eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.calendar table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.calendar th,
+.calendar td {
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.calendar tr:last-child th,
+.calendar tr:last-child td {
+  border-bottom: none;
+}
+
+.calendar th:last-child,
+.calendar td:last-child {
+  border-right: none;
+}
+
+
+/* En-tête du tableau */
+
+.calendar thead th {
+  height: 56px;
+  background: #fafbfc;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.calendar thead th:first-child {
+  width: 92px;
+}
+
+
+/* Colonne des heures */
+
+.calendar tbody th {
+  height: 57px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+/* Cellules */
+
+.calendar tbody td {
+  height: 57px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+
+/* =========================
+   RENDEZ-VOUS
+========================= */
+
+.calendar tbody td.appointment {
+  background-color: #b8e3bd !important;
+  border-radius: 5px;
+}
+
+.calendar tbody td.appointment:hover {
+  outline: 2px solid #0796a0;
+  outline-offset: -2px;
+}
+
+
+/* =========================
+   LÉGENDE
+========================= */
+
+.legend {
+  margin-top: 22px;
+  min-height: 95px;
+  display: flex;
+  align-items: center;
+  gap: 160px;
+  padding: 20px 28px;
+  border: 1px solid #dce3eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.legend-color {
+  width: 44px;
+  height: 44px;
+  display: block;
+  border-radius: 5px;
+}
+
+.legend-color.green {
+  background-color: #b8e3bd;
+}
+
+.legend-color.white {
+  background-color: #ffffff;
+  border: 1px solid #d8e0ea;
+}
+
+.legend-item strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.legend-item p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+  .planning-header {
+    flex-direction: column;
+  }
+
+  .planning-actions {
+    flex-wrap: wrap;
+  }
+
+  .sidebar {
+    width: 210px;
+  }
+
+  .content {
+    padding: 25px;
+  }
+
+  .legend {
+    gap: 70px;
+  }
+
+}
