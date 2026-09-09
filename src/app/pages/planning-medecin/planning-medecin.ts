@@ -1,4 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { RendezVous } from '../../services/rendez-vous';
 
 @Component({
@@ -14,16 +15,15 @@ export class PlanningMedecin implements OnInit {
   joursSemaine: Date[] = [];
 
   constructor(
-    private rendezVousService: RendezVous
+    private rendezVousService: RendezVous,
+    private router: Router
   ) {}
 
 
   ngOnInit(): void {
 
-    // Génération de la semaine actuelle
     this.genererSemaine();
 
-    // Récupération des rendez-vous depuis le backend
     this.rendezVousService.getRendezVous().subscribe({
 
       next: (data) => {
@@ -51,7 +51,6 @@ export class PlanningMedecin implements OnInit {
   }
 
 
-  // Génère la semaine actuelle
   genererSemaine(): void {
 
     const aujourdHui = new Date();
@@ -84,7 +83,6 @@ export class PlanningMedecin implements OnInit {
   }
 
 
-  // Affichage 07/09
   formatDate(date: Date): string {
 
     if (!date) {
@@ -102,7 +100,6 @@ export class PlanningMedecin implements OnInit {
   }
 
 
-  // Transforme une date en 2026-09-07
   formatDateComparaison(date: Date): string {
 
     const annee = date.getFullYear();
@@ -120,7 +117,6 @@ export class PlanningMedecin implements OnInit {
   }
 
 
-  // Vérifie s'il existe un rendez-vous actif
   aRendezVous(
     date: Date,
     heure: number
@@ -135,7 +131,6 @@ export class PlanningMedecin implements OnInit {
 
     return this.rendezVous().some(rdv => {
 
-      // Rendez-vous annulé = non affiché
       if (rdv.annule === true) {
         return false;
       }
@@ -158,7 +153,49 @@ export class PlanningMedecin implements OnInit {
   }
 
 
-  // Semaine précédente
+  ouvrirRendezVous(
+    date: Date,
+    heure: number
+  ): void {
+
+    if (!date) {
+      return;
+    }
+
+    const datePlanning =
+      this.formatDateComparaison(date);
+
+    const rdv = this.rendezVous().find(rdv => {
+
+      if (rdv.annule === true) {
+        return false;
+      }
+
+      const dateRdv =
+        rdv.dateHeure.substring(0, 10);
+
+      const heureRdv =
+        Number(
+          rdv.dateHeure.substring(11, 13)
+        );
+
+      return (
+        dateRdv === datePlanning &&
+        heureRdv === heure
+      );
+
+    });
+
+    if (rdv) {
+      this.router.navigate([
+        '/consultation',
+        rdv.id
+      ]);
+    }
+
+  }
+
+
   semainePrecedente(): void {
 
     this.joursSemaine =
@@ -178,7 +215,6 @@ export class PlanningMedecin implements OnInit {
   }
 
 
-  // Semaine suivante
   semaineSuivante(): void {
 
     this.joursSemaine =

@@ -11,6 +11,7 @@ export class RendezVous {
 
   constructor(private http: HttpClient) {}
 
+
   getRendezVous(): Observable<any[]> {
 
     const token = localStorage.getItem('token');
@@ -19,7 +20,27 @@ export class RendezVous {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get<any[]>(this.apiUrl, { headers });
+    return this.http.get<any[]>(
+      this.apiUrl,
+      { headers }
+    );
+
+  }
+
+
+  getRendezVousById(id: number): Observable<any> {
+
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    return this.http.get<any>(
+      `${this.apiUrl}/${id}`,
+      { headers }
+    );
+
   }
 
 }
