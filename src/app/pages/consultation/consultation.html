@@ -1,1 +1,181 @@
-<p>consultation works!</p>
+<div class="consultation-page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo">
+      <img src="/logo-mediflow.png" alt="MediFlow">
+    </div>
+
+    <nav class="menu">
+
+      <a class="menu-item">
+        <span class="menu-icon">📅</span>
+        <span>Planning</span>
+      </a>
+
+      <a class="menu-item">
+        <span class="menu-icon">👤</span>
+        <span>Patients</span>
+      </a>
+
+    </nav>
+
+    <button class="logout-button">
+      <span class="menu-icon">↪</span>
+      <span>Déconnexion</span>
+    </button>
+
+  </aside>
+
+
+  <!-- CONTENU -->
+  <main class="content">
+
+    <div class="page-header">
+      <h1>Consultation</h1>
+      <p>Informations du patient et compte rendu de consultation</p>
+    </div>
+
+
+    @if (rendezVous()) {
+
+      <!-- INFORMATIONS PATIENT -->
+      <section class="consultation-card">
+
+        <h2>Patient</h2>
+
+        <div class="info-grid">
+
+          <div class="info-block">
+            <span class="label">Nom</span>
+            <strong>
+              {{ rendezVous().patient.nom }}
+              {{ rendezVous().patient.prenom }}
+            </strong>
+          </div>
+
+          <div class="info-block">
+            <span class="label">Date de naissance</span>
+            <strong>
+              {{ rendezVous().patient.dateNaissance }}
+            </strong>
+          </div>
+
+          <div class="info-block">
+            <span class="label">Téléphone</span>
+            <strong>
+              {{ rendezVous().patient.telephone }}
+            </strong>
+          </div>
+
+          <div class="info-block">
+            <span class="label">Email</span>
+            <strong>
+              {{ rendezVous().patient.email }}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- INFORMATIONS RENDEZ-VOUS -->
+      <section class="consultation-card">
+
+        <h2>Rendez-vous</h2>
+
+        <div class="info-grid">
+
+          <div class="info-block">
+            <span class="label">Date et heure</span>
+            <strong>
+              {{ rendezVous().dateHeure }}
+            </strong>
+          </div>
+
+          <div class="info-block">
+            <span class="label">Motif</span>
+            <strong>
+              {{ rendezVous().motif }}
+            </strong>
+          </div>
+
+          <div class="info-block">
+            <span class="label">Médecin</span>
+            <strong>
+              Dr. {{ rendezVous().medecin.nom }}
+              {{ rendezVous().medecin.prenom }}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- COMPTE RENDU -->
+      <section class="consultation-card">
+
+        <h2>Compte rendu</h2>
+
+        <div class="form-group">
+
+          <label for="diagnostic">
+            Diagnostic
+          </label>
+
+          <input
+            type="text"
+            id="diagnostic"
+            name="diagnostic"
+            [(ngModel)]="diagnostic"
+            placeholder="Saisir le diagnostic"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="notes">
+            Notes
+          </label>
+
+          <textarea
+            id="notes"
+            name="notes"
+            rows="6"
+            [(ngModel)]="notes"
+            placeholder="Saisir les notes de la consultation"
+          ></textarea>
+
+        </div>
+
+
+        @if (messageSucces) {
+          <p class="success-message">
+            {{ messageSucces }}
+          </p>
+        }
+
+
+        <div class="actions">
+
+          <button
+            class="save-button"
+            (click)="enregistrerConsultation()"
+          >
+            Enregistrer la consultation
+          </button>
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
+
+</div>
