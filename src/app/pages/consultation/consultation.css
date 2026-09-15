@@ -243,3 +243,159 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ORDONNANCE */
+
+.ordonnance-card {
+  margin-top: 25px;
+}
+
+.ordonnance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.ordonnance-header h2 {
+  margin: 0 0 6px;
+}
+
+.ordonnance-header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.ordonnance-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ordonnance-line {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1.3fr 1fr 45px;
+  gap: 15px;
+  align-items: end;
+
+  padding: 18px;
+
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.ordonnance-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ordonnance-field label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.ordonnance-field input {
+  width: 100%;
+  height: 45px;
+
+  padding: 0 12px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #0f172a;
+
+  font-size: 14px;
+}
+
+.ordonnance-field input:focus {
+  outline: none;
+  border-color: #0796a0;
+}
+
+.ordonnance-field input::placeholder {
+  color: #94a3b8;
+}
+
+/* SUPPRIMER UNE LIGNE */
+
+.ordonnance-delete {
+  display: flex;
+  align-items: flex-end;
+}
+
+.delete-line-button {
+  width: 45px;
+  height: 45px;
+
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #dc2626;
+
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.delete-line-button:hover:not(:disabled) {
+  background: #fef2f2;
+}
+
+.delete-line-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* AJOUTER UN MÉDICAMENT */
+
+.add-line-button {
+  margin-top: 20px;
+
+  height: 45px;
+  padding: 0 18px;
+
+  border: 1px solid #0796a0;
+  border-radius: 7px;
+
+  background: #ffffff;
+  color: #0796a0;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.add-line-button:hover {
+  background: #f0fdfa;
+}
+
+/* RESPONSIVE ORDONNANCE */
+
+@media (max-width: 1100px) {
+
+  .ordonnance-line {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ordonnance-delete {
+    align-items: center;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .ordonnance-line {
+    grid-template-columns: 1fr;
+  }
+
+  .delete-line-button {
+    width: 100%;
+  }
+}

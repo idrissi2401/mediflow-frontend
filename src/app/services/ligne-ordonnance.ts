@@ -5,9 +5,10 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ConsultationService {
+export class LigneOrdonnanceService {
 
-  private apiUrl = 'http://localhost:8080/api/consultations';
+  private apiUrl =
+    'http://localhost:8080/api/lignes-ordonnance';
 
   constructor(
     private http: HttpClient
@@ -29,16 +30,16 @@ export class ConsultationService {
 
 
   // =========================
-  // CRÉER UNE CONSULTATION
+  // CRÉER UNE LIGNE
   // =========================
 
-  creerConsultation(
-    consultation: any
+  creerLigne(
+    ligne: any
   ): Observable<any> {
 
     return this.http.post<any>(
       this.apiUrl,
-      consultation,
+      ligne,
       {
         headers: this.getHeaders()
       }
@@ -47,10 +48,10 @@ export class ConsultationService {
 
 
   // =========================
-  // RÉCUPÉRER PAR ID
+  // RÉCUPÉRER UNE LIGNE
   // =========================
 
-  getConsultationById(
+  getLigneById(
     id: number
   ): Observable<any> {
 
@@ -64,15 +65,15 @@ export class ConsultationService {
 
 
   // =========================
-  // RÉCUPÉRER PAR RENDEZ-VOUS
+  // LIGNES D'UNE ORDONNANCE
   // =========================
 
-  getConsultationByRendezVousId(
-    rendezVousId: number
-  ): Observable<any> {
+  getLignesByOrdonnance(
+    ordonnanceId: number
+  ): Observable<any[]> {
 
-    return this.http.get<any>(
-      `${this.apiUrl}/rendez-vous/${rendezVousId}`,
+    return this.http.get<any[]>(
+      `${this.apiUrl}/ordonnance/${ordonnanceId}`,
       {
         headers: this.getHeaders()
       }
@@ -81,17 +82,34 @@ export class ConsultationService {
 
 
   // =========================
-  // MODIFIER UNE CONSULTATION
+  // MODIFIER UNE LIGNE
   // =========================
 
-  modifierConsultation(
+  modifierLigne(
     id: number,
-    consultation: any
+    ligne: any
   ): Observable<any> {
 
     return this.http.put<any>(
       `${this.apiUrl}/${id}`,
-      consultation,
+      ligne,
+      {
+        headers: this.getHeaders()
+      }
+    );
+  }
+
+
+  // =========================
+  // SUPPRIMER UNE LIGNE
+  // =========================
+
+  supprimerLigne(
+    id: number
+  ): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.apiUrl}/${id}`,
       {
         headers: this.getHeaders()
       }

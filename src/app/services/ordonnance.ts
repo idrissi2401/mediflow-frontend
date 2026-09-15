@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ConsultationService {
+export class OrdonnanceService {
 
-  private apiUrl = 'http://localhost:8080/api/consultations';
+  private apiUrl = 'http://localhost:8080/api/ordonnances';
 
   constructor(
     private http: HttpClient
@@ -29,16 +29,16 @@ export class ConsultationService {
 
 
   // =========================
-  // CRÉER UNE CONSULTATION
+  // CRÉER UNE ORDONNANCE
   // =========================
 
-  creerConsultation(
-    consultation: any
+  creerOrdonnance(
+    ordonnance: any
   ): Observable<any> {
 
     return this.http.post<any>(
       this.apiUrl,
-      consultation,
+      ordonnance,
       {
         headers: this.getHeaders()
       }
@@ -50,7 +50,7 @@ export class ConsultationService {
   // RÉCUPÉRER PAR ID
   // =========================
 
-  getConsultationById(
+  getOrdonnanceById(
     id: number
   ): Observable<any> {
 
@@ -64,15 +64,15 @@ export class ConsultationService {
 
 
   // =========================
-  // RÉCUPÉRER PAR RENDEZ-VOUS
+  // RÉCUPÉRER PAR CONSULTATION
   // =========================
 
-  getConsultationByRendezVousId(
-    rendezVousId: number
+  getOrdonnanceByConsultationId(
+    consultationId: number
   ): Observable<any> {
 
     return this.http.get<any>(
-      `${this.apiUrl}/rendez-vous/${rendezVousId}`,
+      `${this.apiUrl}/consultation/${consultationId}`,
       {
         headers: this.getHeaders()
       }
@@ -81,17 +81,17 @@ export class ConsultationService {
 
 
   // =========================
-  // MODIFIER UNE CONSULTATION
+  // MODIFIER UNE ORDONNANCE
   // =========================
 
-  modifierConsultation(
+  modifierOrdonnance(
     id: number,
-    consultation: any
+    ordonnance: any
   ): Observable<any> {
 
     return this.http.put<any>(
       `${this.apiUrl}/${id}`,
-      consultation,
+      ordonnance,
       {
         headers: this.getHeaders()
       }
