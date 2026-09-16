@@ -12,19 +12,19 @@
 
     <nav class="menu">
 
-      <a class="menu-item">
+      <a class="menu-item" routerLink="/planning-medecin">
         <span class="menu-icon">📅</span>
         <span>Planning</span>
       </a>
 
-      <a class="menu-item">
+      <a class="menu-item" routerLink="/patients">
         <span class="menu-icon">👤</span>
         <span>Patients</span>
       </a>
 
     </nav>
 
-    <button class="logout-button">
+    <button type="button" class="logout-button" (click)="deconnexion()">
       <span class="menu-icon">↪</span>
       <span>Déconnexion</span>
     </button>
@@ -51,387 +51,342 @@
 
     @if (rendezVous()) {
 
-      <!-- ========================= -->
-      <!-- PATIENT -->
-      <!-- ========================= -->
+    <!-- ========================= -->
+    <!-- PATIENT -->
+    <!-- ========================= -->
 
-      <section class="consultation-card">
+    <section class="consultation-card">
 
-        <h2>Patient</h2>
+      <h2>Patient</h2>
 
-        <div class="info-grid">
+      <div class="info-grid">
 
-          <div class="info-block">
+        <div class="info-block">
 
-            <span class="label">
-              Nom
-            </span>
+          <span class="label">
+            Nom
+          </span>
 
-            <strong>
-              {{ rendezVous().patient.nom }}
-              {{ rendezVous().patient.prenom }}
-            </strong>
-
-          </div>
-
-
-          <div class="info-block">
-
-            <span class="label">
-              Date de naissance
-            </span>
-
-            <strong>
-              {{ rendezVous().patient.dateNaissance }}
-            </strong>
-
-          </div>
-
-
-          <div class="info-block">
-
-            <span class="label">
-              Téléphone
-            </span>
-
-            <strong>
-              {{ rendezVous().patient.telephone }}
-            </strong>
-
-          </div>
-
-
-          <div class="info-block">
-
-            <span class="label">
-              Email
-            </span>
-
-            <strong>
-              {{ rendezVous().patient.email }}
-            </strong>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================= -->
-      <!-- RENDEZ-VOUS -->
-      <!-- ========================= -->
-
-      <section class="consultation-card">
-
-        <h2>Rendez-vous</h2>
-
-        <div class="info-grid">
-
-          <div class="info-block">
-
-            <span class="label">
-              Date et heure
-            </span>
-
-            <strong>
-              {{ rendezVous().dateHeure }}
-            </strong>
-
-          </div>
-
-
-          <div class="info-block">
-
-            <span class="label">
-              Motif
-            </span>
-
-            <strong>
-              {{ rendezVous().motif }}
-            </strong>
-
-          </div>
-
-
-          <div class="info-block">
-
-            <span class="label">
-              Médecin
-            </span>
-
-            <strong>
-              Dr. {{ rendezVous().medecin.nom }}
-              {{ rendezVous().medecin.prenom }}
-            </strong>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================= -->
-      <!-- COMPTE RENDU -->
-      <!-- ========================= -->
-
-      <section class="consultation-card">
-
-        <h2>Compte rendu</h2>
-
-
-        <!-- DIAGNOSTIC -->
-
-        <div class="form-group">
-
-          <label for="diagnostic">
-            Diagnostic
-          </label>
-
-          <input
-            type="text"
-            id="diagnostic"
-            name="diagnostic"
-            [(ngModel)]="diagnostic"
-            placeholder="Saisir le diagnostic"
-          >
+          <strong>
+            {{ rendezVous().patient.nom }}
+            {{ rendezVous().patient.prenom }}
+          </strong>
 
         </div>
 
 
-        <!-- NOTES -->
+        <div class="info-block">
 
-        <div class="form-group">
+          <span class="label">
+            Date de naissance
+          </span>
 
-          <label for="notes">
-            Notes
-          </label>
-
-          <textarea
-            id="notes"
-            name="notes"
-            rows="6"
-            [(ngModel)]="notes"
-            placeholder="Saisir les notes de la consultation"
-          ></textarea>
+          <strong>
+            {{ rendezVous().patient.dateNaissance }}
+          </strong>
 
         </div>
 
 
-        <!-- MESSAGE CONSULTATION -->
+        <div class="info-block">
 
-        @if (messageSucces) {
+          <span class="label">
+            Téléphone
+          </span>
 
-          <p class="success-message">
-            {{ messageSucces }}
-          </p>
-
-        }
-
-
-        <!-- BOUTON CONSULTATION -->
-
-        <div class="actions">
-
-          <button
-            type="button"
-            class="save-button"
-            (click)="enregistrerConsultation()"
-          >
-            @if (consultationId === null) {
-              Enregistrer la consultation
-            } @else {
-              Modifier la consultation
-            }
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <!-- ========================= -->
-      <!-- ORDONNANCE -->
-      <!-- ========================= -->
-
-      <section class="consultation-card ordonnance-card">
-
-        <div class="ordonnance-header">
-
-          <div>
-
-            <h2>
-              Ordonnance
-            </h2>
-
-            <p>
-              Ajouter les médicaments prescrits au patient
-            </p>
-
-          </div>
+          <strong>
+            {{ rendezVous().patient.telephone }}
+          </strong>
 
         </div>
 
 
-        <!-- ========================= -->
-        <!-- LIGNES DE L'ORDONNANCE -->
-        <!-- ========================= -->
+        <div class="info-block">
 
-        <div class="ordonnance-list">
+          <span class="label">
+            Email
+          </span>
 
-          @for (
-            ligne of lignesOrdonnance;
-            track ligne.id ?? $index;
-            let i = $index
-          ) {
+          <strong>
+            {{ rendezVous().patient.email }}
+          </strong>
 
-            <div class="ordonnance-line">
+        </div>
 
+      </div>
 
-              <!-- MÉDICAMENT -->
-
-              <div class="ordonnance-field">
-
-                <label>
-                  Médicament
-                </label>
-
-                <input
-                  type="text"
-                  [(ngModel)]="ligne.medicament"
-                  name="medicament-{{ i }}"
-                  placeholder="Ex : Doliprane"
-                >
-
-              </div>
+    </section>
 
 
-              <!-- DOSAGE -->
+    <!-- ========================= -->
+    <!-- RENDEZ-VOUS -->
+    <!-- ========================= -->
 
-              <div class="ordonnance-field">
+    <section class="consultation-card">
 
-                <label>
-                  Dosage
-                </label>
+      <h2>Rendez-vous</h2>
 
-                <input
-                  type="text"
-                  [(ngModel)]="ligne.dosage"
-                  name="dosage-{{ i }}"
-                  placeholder="Ex : 1000 mg"
-                >
+      <div class="info-grid">
 
-              </div>
+        <div class="info-block">
 
+          <span class="label">
+            Date et heure
+          </span>
 
-              <!-- FRÉQUENCE -->
+          <strong>
+            {{ rendezVous().dateHeure }}
+          </strong>
 
-              <div class="ordonnance-field">
-
-                <label>
-                  Fréquence
-                </label>
-
-                <input
-                  type="text"
-                  [(ngModel)]="ligne.frequence"
-                  name="frequence-{{ i }}"
-                  placeholder="Ex : 3 fois par jour"
-                >
-
-              </div>
+        </div>
 
 
-              <!-- DURÉE -->
+        <div class="info-block">
 
-              <div class="ordonnance-field">
+          <span class="label">
+            Motif
+          </span>
 
-                <label>
-                  Durée
-                </label>
+          <strong>
+            {{ rendezVous().motif }}
+          </strong>
 
-                <input
-                  type="text"
-                  [(ngModel)]="ligne.duree"
-                  name="duree-{{ i }}"
-                  placeholder="Ex : 5 jours"
-                >
-
-              </div>
+        </div>
 
 
-              <!-- SUPPRIMER -->
+        <div class="info-block">
 
-              <div class="ordonnance-delete">
+          <span class="label">
+            Médecin
+          </span>
 
-                <button
-                  type="button"
-                  class="delete-line-button"
-                  (click)="supprimerLigneOrdonnance(i)"
-                  title="Supprimer le médicament"
-                >
-                  ✕
-                </button>
+          <strong>
+            Dr. {{ rendezVous().medecin.nom }}
+            {{ rendezVous().medecin.prenom }}
+          </strong>
 
-              </div>
+        </div>
 
-            </div>
+      </div>
 
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- COMPTE RENDU -->
+    <!-- ========================= -->
+
+    <section class="consultation-card">
+
+      <h2>Compte rendu</h2>
+
+
+      <!-- DIAGNOSTIC -->
+
+      <div class="form-group">
+
+        <label for="diagnostic">
+          Diagnostic
+        </label>
+
+        <input type="text" id="diagnostic" name="diagnostic" [(ngModel)]="diagnostic"
+          placeholder="Saisir le diagnostic">
+
+      </div>
+
+
+      <!-- NOTES -->
+
+      <div class="form-group">
+
+        <label for="notes">
+          Notes
+        </label>
+
+        <textarea id="notes" name="notes" rows="6" [(ngModel)]="notes"
+          placeholder="Saisir les notes de la consultation"></textarea>
+
+      </div>
+
+
+      <!-- MESSAGE CONSULTATION -->
+
+      @if (messageSucces) {
+
+      <p class="success-message">
+        {{ messageSucces }}
+      </p>
+
+      }
+
+
+      <!-- BOUTON CONSULTATION -->
+
+      <div class="actions">
+
+        <button type="button" class="save-button" (click)="enregistrerConsultation()">
+          @if (consultationId === null) {
+          Enregistrer la consultation
+          } @else {
+          Modifier la consultation
           }
-
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- AJOUTER UN MÉDICAMENT -->
-        <!-- ========================= -->
-
-        <button
-          type="button"
-          class="add-line-button"
-          (click)="ajouterLigneOrdonnance()"
-        >
-          + Ajouter un médicament
         </button>
 
+      </div>
 
-        <!-- ========================= -->
-        <!-- MESSAGE ORDONNANCE -->
-        <!-- ========================= -->
+    </section>
 
-        @if (messageOrdonnance) {
 
-          <p class="success-message">
-            {{ messageOrdonnance }}
+    <!-- ========================= -->
+    <!-- ORDONNANCE -->
+    <!-- ========================= -->
+
+    <section class="consultation-card ordonnance-card">
+
+      <div class="ordonnance-header">
+
+        <div>
+
+          <h2>
+            Ordonnance
+          </h2>
+
+          <p>
+            Ajouter les médicaments prescrits au patient
           </p>
-
-        }
-
-
-        <!-- ========================= -->
-        <!-- ENREGISTRER ORDONNANCE -->
-        <!-- ========================= -->
-
-        <div class="actions">
-
-          <button
-            type="button"
-            class="save-button"
-            (click)="enregistrerOrdonnance()"
-          >
-
-            @if (ordonnanceId === null) {
-              Enregistrer l'ordonnance
-            } @else {
-              Enregistrer les modifications
-            }
-
-          </button>
 
         </div>
 
-      </section>
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- LIGNES DE L'ORDONNANCE -->
+      <!-- ========================= -->
+
+      <div class="ordonnance-list">
+
+        @for (
+        ligne of lignesOrdonnance;
+        track ligne.id ?? $index;
+        let i = $index
+        ) {
+
+        <div class="ordonnance-line">
+
+
+          <!-- MÉDICAMENT -->
+
+          <div class="ordonnance-field">
+
+            <label>
+              Médicament
+            </label>
+
+            <input type="text" [(ngModel)]="ligne.medicament" name="medicament-{{ i }}" placeholder="Ex : Doliprane">
+
+          </div>
+
+
+          <!-- DOSAGE -->
+
+          <div class="ordonnance-field">
+
+            <label>
+              Dosage
+            </label>
+
+            <input type="text" [(ngModel)]="ligne.dosage" name="dosage-{{ i }}" placeholder="Ex : 1000 mg">
+
+          </div>
+
+
+          <!-- FRÉQUENCE -->
+
+          <div class="ordonnance-field">
+
+            <label>
+              Fréquence
+            </label>
+
+            <input type="text" [(ngModel)]="ligne.frequence" name="frequence-{{ i }}"
+              placeholder="Ex : 3 fois par jour">
+
+          </div>
+
+
+          <!-- DURÉE -->
+
+          <div class="ordonnance-field">
+
+            <label>
+              Durée
+            </label>
+
+            <input type="text" [(ngModel)]="ligne.duree" name="duree-{{ i }}" placeholder="Ex : 5 jours">
+
+          </div>
+
+
+          <!-- SUPPRIMER -->
+
+          <div class="ordonnance-delete">
+
+            <button type="button" class="delete-line-button" (click)="supprimerLigneOrdonnance(i)"
+              title="Supprimer le médicament">
+              ✕
+            </button>
+
+          </div>
+
+        </div>
+
+        }
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- AJOUTER UN MÉDICAMENT -->
+      <!-- ========================= -->
+
+      <button type="button" class="add-line-button" (click)="ajouterLigneOrdonnance()">
+        + Ajouter un médicament
+      </button>
+
+
+      <!-- ========================= -->
+      <!-- MESSAGE ORDONNANCE -->
+      <!-- ========================= -->
+
+      @if (messageOrdonnance) {
+
+      <p class="success-message">
+        {{ messageOrdonnance }}
+      </p>
+
+      }
+
+
+      <!-- ========================= -->
+      <!-- ENREGISTRER ORDONNANCE -->
+      <!-- ========================= -->
+
+      <div class="actions">
+
+        <button type="button" class="save-button" (click)="enregistrerOrdonnance()">
+
+          @if (ordonnanceId === null) {
+          Enregistrer l'ordonnance
+          } @else {
+          Enregistrer les modifications
+          }
+
+        </button>
+
+      </div>
+
+    </section>
 
     }
 

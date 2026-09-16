@@ -1,0 +1,597 @@
+<div class="dossier-page">
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <img src="/logo-mediflow.png" alt="MediFlow">
+    </div>
+
+    <nav class="menu">
+
+      <a class="menu-item" routerLink="/planning-medecin">
+        <span class="menu-icon">📅</span>
+        <span>Planning</span>
+      </a>
+
+      <a class="menu-item active" routerLink="/patients">
+        <span class="menu-icon">👤</span>
+        <span>Patients</span>
+      </a>
+
+    </nav>
+
+    <button type="button" class="logout-button" (click)="deconnexion()">
+      <span class="menu-icon">↪</span>
+      <span>Déconnexion</span>
+    </button>
+
+  </aside>
+
+
+  <!-- ========================= -->
+  <!-- CONTENU PRINCIPAL -->
+  <!-- ========================= -->
+
+  <main class="content">
+
+    <!-- ========================= -->
+    <!-- RETOUR -->
+    <!-- ========================= -->
+
+    <div class="back-container">
+
+      <a routerLink="/patients" class="back-link">
+        ← Retour aux patients
+      </a>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- CHARGEMENT -->
+    <!-- ========================= -->
+
+    @if (chargement) {
+
+    <div class="state-card">
+
+      <p>
+        Chargement du dossier patient...
+      </p>
+
+    </div>
+
+    }
+
+
+    <!-- ========================= -->
+    <!-- ERREUR -->
+    <!-- ========================= -->
+
+    @if (erreur) {
+
+    <div class="error-message">
+      {{ erreur }}
+    </div>
+
+    }
+
+
+    <!-- ========================= -->
+    <!-- DOSSIER PATIENT -->
+    <!-- ========================= -->
+
+    @if (!chargement && !erreur && patient) {
+
+
+    <!-- ========================= -->
+    <!-- HEADER PATIENT -->
+    <!-- ========================= -->
+
+    <header class="patient-header">
+
+      <div class="patient-header-left">
+
+        <div class="patient-avatar">
+
+          {{ patient.prenom?.charAt(0) }}
+          {{ patient.nom?.charAt(0) }}
+
+        </div>
+
+        <div>
+
+          <span class="patient-number">
+            Patient #{{ patient.id }}
+          </span>
+
+          <h1>
+            {{ patient.prenom }}
+            {{ patient.nom }}
+          </h1>
+
+          <p>
+            Dossier médical du patient
+          </p>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- ========================= -->
+    <!-- INFORMATIONS PERSONNELLES -->
+    <!-- ========================= -->
+
+    <section class="dossier-card">
+
+      <div class="card-header">
+
+        <div>
+
+          <h2>
+            Informations personnelles
+          </h2>
+
+          <p>
+            Coordonnées et informations générales du patient
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="information-grid">
+
+        <!-- NOM -->
+
+        <div class="information-item">
+
+          <span class="information-label">
+            Nom
+          </span>
+
+          <strong>
+            {{ patient.nom }}
+          </strong>
+
+        </div>
+
+
+        <!-- PRÉNOM -->
+
+        <div class="information-item">
+
+          <span class="information-label">
+            Prénom
+          </span>
+
+          <strong>
+            {{ patient.prenom }}
+          </strong>
+
+        </div>
+
+
+        <!-- DATE DE NAISSANCE -->
+
+        <div class="information-item">
+
+          <span class="information-label">
+            Date de naissance
+          </span>
+
+          <strong>
+            {{ patient.dateNaissance || '-' }}
+          </strong>
+
+        </div>
+
+
+        <!-- TÉLÉPHONE -->
+
+        <div class="information-item">
+
+          <span class="information-label">
+            Téléphone
+          </span>
+
+          <strong>
+            {{ patient.telephone || '-' }}
+          </strong>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="information-item">
+
+          <span class="information-label">
+            Email
+          </span>
+
+          <strong>
+            {{ patient.email || '-' }}
+          </strong>
+
+        </div>
+
+
+        <!-- ADRESSE -->
+
+        <div class="information-item">
+
+          <span class="information-label">
+            Adresse
+          </span>
+
+          <strong>
+            {{ patient.adresse || '-' }}
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================= -->
+    <!-- HISTORIQUE MÉDICAL -->
+    <!-- ========================= -->
+
+    <section class="dossier-card">
+
+      <div class="card-header">
+
+        <div>
+
+          <h2>
+            Historique médical
+          </h2>
+
+          <p>
+            {{ consultations.length }}
+            consultation(s) enregistrée(s)
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- CONSULTATIONS -->
+      <!-- ========================= -->
+
+      @if (consultations.length > 0) {
+
+      <div class="history-list">
+
+        @for (
+        consultation of consultations;
+        track consultation.id
+        ) {
+
+        <article class="history-item">
+
+
+          <!-- ========================= -->
+          <!-- DATE -->
+          <!-- ========================= -->
+
+          <div class="history-date">
+
+            <div class="history-date-icon">
+              📋
+            </div>
+
+            <div>
+
+              <strong>
+                {{ formatDate(consultation.dateHeure) }}
+              </strong>
+
+              <span>
+                {{ formatHeure(consultation.dateHeure) }}
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- ========================= -->
+          <!-- CONTENU CONSULTATION -->
+          <!-- ========================= -->
+
+          <div class="history-content">
+
+
+            <!-- HEADER -->
+
+            <div class="history-header">
+
+              <div>
+
+                <h3>
+                  Consultation
+                </h3>
+
+                <p>
+
+                  Dr.
+                  {{ consultation.rendezVous?.medecin?.prenom }}
+                  {{ consultation.rendezVous?.medecin?.nom }}
+
+                </p>
+
+              </div>
+
+              <span class="consultation-number">
+
+                Consultation
+                #{{ consultation.id }}
+
+              </span>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- INFORMATIONS -->
+            <!-- ========================= -->
+
+            <div class="history-information-grid">
+
+
+              <!-- MOTIF -->
+
+              <div class="history-information">
+
+                <span class="history-label">
+                  Motif
+                </span>
+
+                <strong>
+
+                  {{
+                  consultation.rendezVous?.motif
+                  || '-'
+                  }}
+
+                </strong>
+
+              </div>
+
+
+              <!-- DATE DU RENDEZ-VOUS -->
+
+              <div class="history-information">
+
+                <span class="history-label">
+                  Rendez-vous
+                </span>
+
+                <strong>
+
+                  {{
+                  formatDate(
+                  consultation.rendezVous?.dateHeure
+                  )
+                  }}
+
+                  à
+
+                  {{
+                  formatHeure(
+                  consultation.rendezVous?.dateHeure
+                  )
+                  }}
+
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- DIAGNOSTIC -->
+            <!-- ========================= -->
+
+            <div class="medical-section">
+
+              <span class="history-label">
+                Diagnostic
+              </span>
+
+              <p>
+
+                {{
+                consultation.diagnostic
+                || 'Aucun diagnostic renseigné.'
+                }}
+
+              </p>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- NOTES -->
+            <!-- ========================= -->
+
+            <div class="medical-section">
+
+              <span class="history-label">
+                Notes
+              </span>
+
+              <p>
+
+                {{
+                consultation.notes
+                || 'Aucune note renseignée.'
+                }}
+
+              </p>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ORDONNANCE -->
+            <!-- ========================= -->
+
+            <!-- ========================= -->
+            <!-- ORDONNANCE -->
+            <!-- ========================= -->
+
+            <div class="prescription-placeholder">
+
+              <span class="prescription-icon">
+                💊
+              </span>
+
+              <div class="prescription-content">
+
+                <strong class="prescription-title">
+                  Ordonnance
+                </strong>
+
+
+                <!-- CHARGEMENT -->
+
+                @if (consultation.chargementOrdonnance) {
+
+                <p>
+                  Chargement de l'ordonnance...
+                </p>
+
+                }
+
+
+                <!-- ORDONNANCE EXISTANTE -->
+
+                @else if (consultation.ordonnance) {
+
+                @if (consultation.lignesOrdonnance.length > 0) {
+
+                <div class="medication-list">
+
+                  @for (
+                  ligne of consultation.lignesOrdonnance;
+                  track ligne.id
+                  ) {
+
+                  <div class="medication-item">
+
+                    <div class="medication-name">
+                      {{ ligne.medicament }}
+                    </div>
+
+                    <div class="medication-details">
+
+                      <span>
+                        {{ ligne.dosage }}
+                      </span>
+
+                      <span class="separator">
+                        •
+                      </span>
+
+                      <span>
+                        {{ ligne.frequence }}
+                      </span>
+
+                      <span class="separator">
+                        •
+                      </span>
+
+                      <span>
+                        {{ ligne.duree }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  }
+
+                </div>
+
+                } @else {
+
+                <p>
+                  Aucun médicament enregistré.
+                </p>
+
+                }
+
+                }
+
+
+                <!-- AUCUNE ORDONNANCE -->
+
+                @else {
+
+                <p>
+                  Aucune ordonnance pour cette consultation.
+                </p>
+
+                }
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
+
+        }
+
+      </div>
+
+      } @else {
+
+
+      <!-- ========================= -->
+      <!-- AUCUNE CONSULTATION -->
+      <!-- ========================= -->
+
+      <div class="empty-history">
+
+        <div class="history-icon">
+          📋
+        </div>
+
+        <h3>
+          Aucun historique médical
+        </h3>
+
+        <p>
+          Aucune consultation n'est enregistrée
+          pour ce patient.
+        </p>
+
+      </div>
+
+      }
+
+    </section>
+
+    }
+
+  </main>
+
+</div>

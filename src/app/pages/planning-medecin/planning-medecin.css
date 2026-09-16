@@ -1,83 +1,155 @@
 :host {
   display: block;
   font-family: Arial, sans-serif;
-  color: #0f1b3d;
+  color: #1f2937;
 }
 
 * {
   box-sizing: border-box;
 }
 
+
+/* =========================
+   PAGE
+========================= */
+
 .planning-page {
   min-height: 100vh;
   display: flex;
-  background: #ffffff;
+  background: #f5f7fb;
 }
 
 
 /* =========================
-   BARRE LATÉRALE
+   SIDEBAR
 ========================= */
 
 .sidebar {
-  width: 250px;
+  width: 240px;
   min-height: 100vh;
-  border-right: 1px solid #e2e8f0;
+
   background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+
   display: flex;
   flex-direction: column;
-  padding: 25px 18px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  padding: 24px 18px;
+
+  z-index: 10;
 }
 
+
+/* =========================
+   LOGO
+========================= */
+
 .logo {
-  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 40px;
 }
 
 .logo img {
-  width: 190px;
-  max-width: 100%;
+  max-width: 160px;
+  max-height: 60px;
+
+  object-fit: contain;
+
   display: block;
 }
+
+
+/* =========================
+   MENU
+========================= */
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+
+  gap: 8px;
 }
 
 .menu-item {
-  height: 55px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 0 18px;
-  border-radius: 8px;
-  color: #475569;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  color: #64748b;
+
   text-decoration: none;
-  font-size: 16px;
+
+  font-size: 15px;
+  font-weight: 500;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.menu-item:hover {
+  background: #f1f5f9;
+  color: #2563eb;
 }
 
 .menu-item.active {
-  background: #0796a0;
-  color: #ffffff;
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-weight: 600;
 }
 
 .menu-icon {
-  font-size: 22px;
+  font-size: 18px;
 }
+
+
+/* =========================
+   DÉCONNEXION
+========================= */
 
 .logout-button {
   margin-top: auto;
+
+  width: 100%;
+
   display: flex;
   align-items: center;
-  gap: 15px;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
   border: none;
+  border-radius: 10px;
+
   background: transparent;
-  padding: 15px;
-  color: #475569;
-  font-size: 16px;
+
+  color: #64748b;
+
+  font-size: 15px;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #fef2f2;
+  color: #dc2626;
 }
 
 
@@ -87,96 +159,168 @@
 
 .content {
   flex: 1;
-  padding: 30px 38px;
+
+  margin-left: 240px;
+
+  padding: 40px;
+
+  min-width: 0;
+
   overflow-x: auto;
 }
 
 
 /* =========================
-   EN-TÊTE
+   HEADER
 ========================= */
 
 .planning-header {
   display: flex;
+
   justify-content: space-between;
   align-items: flex-start;
+
   gap: 30px;
+
   margin-bottom: 28px;
 }
 
 .planning-header h1 {
-  margin: 0 0 10px;
-  font-size: 32px;
-  color: #0f172a;
+  margin: 0 0 8px;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  color: #111827;
 }
 
 .planning-header p {
   margin: 0;
-  color: #64748b;
-  font-size: 16px;
-}
 
-.planning-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  color: #64748b;
+
+  font-size: 15px;
 }
 
 
 /* =========================
-   BOUTONS DU PLANNING
+   ACTIONS DU PLANNING
+========================= */
+
+.planning-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+
+/* =========================
+   BOUTONS
 ========================= */
 
 .navigation-button,
 .date-button,
 .view-select,
 .today-button {
-  height: 52px;
-  border: 1px solid #d8e0ea;
-  border-radius: 7px;
+  height: 44px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+
   background: #ffffff;
-  color: #0f172a;
-  font-size: 15px;
+
+  color: #334155;
+
+  font-size: 14px;
+
+  transition: 0.2s ease;
 }
 
+
+/* Navigation semaine */
+
 .navigation-button {
-  width: 55px;
-  font-size: 32px;
-  color: #334155;
+  width: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+
   cursor: pointer;
 }
 
+.navigation-button:hover {
+  background: #f8fafc;
+
+  border-color: #bfdbfe;
+
+  color: #2563eb;
+}
+
+
+/* Date */
+
 .date-button {
-  min-width: 275px;
+  min-width: 220px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+
+  gap: 15px;
+
+  padding: 0 16px;
+
   font-weight: 600;
 }
+
+
+/* Vue */
 
 .view-select {
-  width: 140px;
-  padding: 0 18px;
+  min-width: 125px;
+
+  padding: 0 14px;
+
   cursor: pointer;
+
+  outline: none;
 }
 
+.view-select:focus {
+  border-color: #93c5fd;
+}
+
+
+/* Aujourd'hui */
+
 .today-button {
-  padding: 0 25px;
-  border: none;
-  background: #0796a0;
+  padding: 0 20px;
+
+  border-color: #2563eb;
+
+  background: #2563eb;
+
   color: #ffffff;
+
   font-weight: 600;
+
   cursor: pointer;
 }
 
 .today-button:hover {
-  background: #07848d;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
 
 /* =========================
-   SÉLECTION DU MÉDECIN
+   SÉLECTION MÉDECIN
 ========================= */
 
 .doctor-select {
@@ -185,38 +329,65 @@
 
 .doctor-select select {
   width: 225px;
-  height: 52px;
-  padding: 0 18px;
-  border: 1px solid #d8e0ea;
-  border-radius: 7px;
+  height: 44px;
+
+  padding: 0 14px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+
   background: #ffffff;
-  color: #0f172a;
-  font-size: 16px;
+
+  color: #334155;
+
+  font-size: 14px;
   font-weight: 600;
+
+  outline: none;
+}
+
+.doctor-select select:focus {
+  border-color: #93c5fd;
 }
 
 
 /* =========================
-   TABLEAU DU PLANNING
+   CALENDRIER
 ========================= */
 
 .calendar {
   width: 100%;
-  border: 1px solid #dce3eb;
-  border-radius: 8px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
   overflow: hidden;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .calendar table {
   width: 100%;
+
+  min-width: 900px;
+
   border-collapse: collapse;
+
   table-layout: fixed;
 }
 
+
+/* =========================
+   BORDURES TABLEAU
+========================= */
+
 .calendar th,
 .calendar td {
-  border-right: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .calendar tr:last-child th,
@@ -230,39 +401,64 @@
 }
 
 
-/* En-tête du tableau */
+/* =========================
+   EN-TÊTE TABLEAU
+========================= */
 
 .calendar thead th {
   height: 56px;
-  background: #fafbfc;
-  color: #0f172a;
-  font-size: 14px;
+
+  padding: 10px;
+
+  background: #f8fafc;
+
+  color: #64748b;
+
+  font-size: 12px;
   font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.03em;
 }
 
 .calendar thead th:first-child {
-  width: 92px;
+  width: 90px;
 }
 
 
-/* Colonne des heures */
+/* =========================
+   HEURES
+========================= */
 
 .calendar tbody th {
   height: 57px;
+
   background: #ffffff;
-  color: #0f172a;
-  font-size: 15px;
+
+  color: #64748b;
+
+  font-size: 13px;
   font-weight: 600;
 }
 
 
-/* Cellules */
+/* =========================
+   CELLULES
+========================= */
 
 .calendar tbody td {
   height: 57px;
-  background-color: #ffffff;
+
+  background: #ffffff;
+
   cursor: pointer;
-  transition: 0.15s;
+
+  transition: 0.15s ease;
+}
+
+.calendar tbody td:hover {
+  background: #f8fafc;
 }
 
 
@@ -271,13 +467,19 @@
 ========================= */
 
 .calendar tbody td.appointment {
-  background-color: #b8e3bd !important;
-  border-radius: 5px;
+  background: #dcfce7 !important;
+
+  box-shadow:
+    inset 3px 0 0 #22c55e;
+
+  cursor: pointer;
 }
 
 .calendar tbody td.appointment:hover {
-  outline: 2px solid #0796a0;
-  outline-offset: -2px;
+  background: #bbf7d0 !important;
+
+  box-shadow:
+    inset 3px 0 0 #16a34a;
 }
 
 
@@ -287,49 +489,71 @@
 
 .legend {
   margin-top: 22px;
-  min-height: 95px;
+
+  min-height: 90px;
+
   display: flex;
   align-items: center;
-  gap: 160px;
-  padding: 20px 28px;
-  border: 1px solid #dce3eb;
-  border-radius: 8px;
+
+  gap: 80px;
+
+  padding: 20px 24px;
+
   background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 18px;
+
+  gap: 14px;
 }
 
 .legend-color {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
+
   display: block;
-  border-radius: 5px;
+
+  border-radius: 8px;
+
+  flex-shrink: 0;
 }
 
 .legend-color.green {
-  background-color: #b8e3bd;
+  background: #dcfce7;
+
+  border-left: 3px solid #22c55e;
 }
 
 .legend-color.white {
-  background-color: #ffffff;
-  border: 1px solid #d8e0ea;
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
 }
 
 .legend-item strong {
   display: block;
-  margin-bottom: 6px;
-  font-size: 15px;
-  color: #0f172a;
+
+  margin-bottom: 4px;
+
+  color: #334155;
+
+  font-size: 14px;
 }
 
 .legend-item p {
   margin: 0;
-  color: #64748b;
-  font-size: 14px;
+
+  color: #94a3b8;
+
+  font-size: 13px;
 }
 
 
@@ -344,19 +568,60 @@
   }
 
   .planning-actions {
-    flex-wrap: wrap;
+    width: 100%;
   }
 
+}
+
+
+@media (max-width: 900px) {
+
   .sidebar {
-    width: 210px;
+    width: 190px;
   }
 
   .content {
+    margin-left: 190px;
+
     padding: 25px;
   }
 
   .legend {
-    gap: 70px;
+    gap: 40px;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+
+    padding: 20px;
+  }
+
+  .planning-header h1 {
+    font-size: 25px;
+  }
+
+  .planning-actions {
+    align-items: stretch;
+  }
+
+  .date-button {
+    min-width: 180px;
+  }
+
+  .legend {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
   }
 
 }

@@ -6,34 +6,47 @@ import {
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import { RendezVous } from '../../services/rendez-vous';
 import { ConsultationService } from '../../services/consultation';
 import { OrdonnanceService } from '../../services/ordonnance';
 import { LigneOrdonnanceService } from '../../services/ligne-ordonnance';
 
+
 @Component({
   selector: 'app-consultation',
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    RouterLink
+  ],
   templateUrl: './consultation.html',
   styleUrl: './consultation.css',
 })
 export class Consultation implements OnInit {
 
   rendezVousId: number = 0;
+
   rendezVous = signal<any>(null);
+
 
   // =========================
   // CONSULTATION
   // =========================
 
   diagnostic: string = '';
+
   notes: string = '';
 
   consultationId: number | null = null;
 
   messageSucces: string = '';
+
 
   // =========================
   // ORDONNANCE
@@ -60,7 +73,8 @@ export class Consultation implements OnInit {
     private consultationService: ConsultationService,
     private ordonnanceService: OrdonnanceService,
     private ligneOrdonnanceService: LigneOrdonnanceService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
 
@@ -103,7 +117,6 @@ export class Consultation implements OnInit {
             'Erreur récupération rendez-vous :',
             error
           );
-
         }
 
       });
@@ -148,6 +161,7 @@ export class Consultation implements OnInit {
           if (error.status === 404) {
 
             this.consultationId = null;
+
             this.ordonnanceId = null;
 
             console.log(
@@ -160,7 +174,6 @@ export class Consultation implements OnInit {
               'Erreur récupération consultation :',
               error
             );
-
           }
 
         }
@@ -225,7 +238,6 @@ export class Consultation implements OnInit {
               'Erreur récupération ordonnance :',
               error
             );
-
           }
 
         }
@@ -301,7 +313,6 @@ export class Consultation implements OnInit {
             'Erreur récupération lignes ordonnance :',
             error
           );
-
         }
 
       });
@@ -362,7 +373,6 @@ export class Consultation implements OnInit {
               'Erreur création consultation :',
               error
             );
-
           }
 
         });
@@ -401,7 +411,6 @@ export class Consultation implements OnInit {
             'Erreur modification consultation :',
             error
           );
-
         }
 
       });
@@ -417,9 +426,13 @@ export class Consultation implements OnInit {
     this.lignesOrdonnance.push({
 
       id: null,
+
       medicament: '',
+
       dosage: '',
+
       frequence: '',
+
       duree: ''
 
     });
@@ -459,11 +472,17 @@ export class Consultation implements OnInit {
       if (this.lignesOrdonnance.length === 0) {
 
         this.lignesOrdonnance.push({
+
           id: null,
+
           medicament: '',
+
           dosage: '',
+
           frequence: '',
+
           duree: ''
+
         });
       }
 
@@ -494,11 +513,17 @@ export class Consultation implements OnInit {
           ) {
 
             this.lignesOrdonnance.push({
+
               id: null,
+
               medicament: '',
+
               dosage: '',
+
               frequence: '',
+
               duree: ''
+
             });
 
           }
@@ -521,7 +546,6 @@ export class Consultation implements OnInit {
             'Erreur suppression ligne ordonnance :',
             error
           );
-
         }
 
       });
@@ -593,7 +617,6 @@ export class Consultation implements OnInit {
           this.enregistrerNouvellesLignes(
             this.ordonnanceId!
           );
-
         },
 
         error: (error) => {
@@ -602,7 +625,6 @@ export class Consultation implements OnInit {
             'Erreur enregistrement ordonnance :',
             error
           );
-
         }
 
       });
@@ -689,7 +711,6 @@ export class Consultation implements OnInit {
 
               this.cdr.detectChanges();
             }
-
           },
 
           error: (error) => {
@@ -698,12 +719,25 @@ export class Consultation implements OnInit {
               'Erreur enregistrement ligne ordonnance :',
               error
             );
-
           }
 
         });
 
     });
+  }
+
+
+  // =========================
+  // DÉCONNEXION
+  // =========================
+
+  deconnexion(): void {
+
+    localStorage.removeItem('token');
+
+    this.router.navigate([
+      '/login'
+    ]);
   }
 
 }

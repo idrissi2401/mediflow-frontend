@@ -1,182 +1,320 @@
 :host {
   display: block;
   font-family: Arial, sans-serif;
-  color: #0f172a;
+  color: #1f2937;
 }
 
 * {
   box-sizing: border-box;
 }
 
+
+/* =========================
+   PAGE
+========================= */
+
 .consultation-page {
   min-height: 100vh;
   display: flex;
-  background: #f8fafc;
+  background: #f5f7fb;
 }
 
-/* SIDEBAR */
+
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
-  width: 250px;
+  width: 240px;
   min-height: 100vh;
-  border-right: 1px solid #e2e8f0;
+
   background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+
   display: flex;
   flex-direction: column;
-  padding: 25px 18px;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  padding: 24px 18px;
+
+  z-index: 10;
 }
 
+
+/* =========================
+   LOGO
+========================= */
+
 .logo {
-  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 40px;
 }
 
 .logo img {
-  width: 190px;
-  max-width: 100%;
+  max-width: 160px;
+  max-height: 60px;
+
+  object-fit: contain;
+
   display: block;
 }
+
+
+/* =========================
+   MENU
+========================= */
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+
+  gap: 8px;
 }
 
 .menu-item {
-  height: 55px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 0 18px;
-  border-radius: 8px;
-  color: #475569;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
+  border-radius: 10px;
+
+  color: #64748b;
+
   text-decoration: none;
-  font-size: 16px;
+
+  font-size: 15px;
+  font-weight: 500;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
 .menu-item:hover {
   background: #f1f5f9;
+  color: #2563eb;
+}
+
+.menu-item.active {
+  background: #eff6ff;
+  color: #2563eb;
+
+  font-weight: 600;
 }
 
 .menu-icon {
-  font-size: 22px;
+  font-size: 18px;
 }
+
+
+/* =========================
+   DÉCONNEXION
+========================= */
 
 .logout-button {
   margin-top: auto;
+
+  width: 100%;
+
   display: flex;
   align-items: center;
-  gap: 15px;
+
+  gap: 12px;
+
+  padding: 12px 14px;
+
   border: none;
+  border-radius: 10px;
+
   background: transparent;
-  padding: 15px;
-  color: #475569;
-  font-size: 16px;
+
+  color: #64748b;
+
+  font-size: 15px;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
 .logout-button:hover {
-  color: #0796a0;
+  background: #fef2f2;
+  color: #dc2626;
 }
 
-/* CONTENU */
+
+/* =========================
+   CONTENU PRINCIPAL
+========================= */
 
 .content {
   flex: 1;
-  padding: 35px 40px;
+
+  margin-left: 240px;
+
+  padding: 40px;
+
+  min-width: 0;
 }
 
+
+/* =========================
+   EN-TÊTE
+========================= */
+
 .page-header {
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .page-header h1 {
   margin: 0 0 8px;
-  font-size: 32px;
-  color: #0f172a;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  color: #111827;
 }
 
 .page-header p {
   margin: 0;
+
   color: #64748b;
-  font-size: 16px;
+
+  font-size: 15px;
 }
 
-/* CARTES */
+
+/* =========================
+   CARTES
+========================= */
 
 .consultation-card {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  padding: 28px;
-  margin-bottom: 25px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+
+  padding: 24px;
+
+  margin-bottom: 24px;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .consultation-card h2 {
-  margin: 0 0 25px;
-  font-size: 22px;
-  color: #0f172a;
+  margin: 0 0 22px;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #111827;
 }
 
-/* INFORMATIONS */
+
+/* =========================
+   INFORMATIONS PATIENT
+========================= */
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
 }
 
 .info-block {
   display: flex;
   flex-direction: column;
+
   gap: 7px;
+
+  padding: 16px;
+
+  background: #f8fafc;
+
+  border: 1px solid #f1f5f9;
+  border-radius: 10px;
 }
 
 .label {
-  color: #64748b;
-  font-size: 14px;
+  color: #94a3b8;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.04em;
 }
 
 .info-block strong {
-  font-size: 16px;
+  color: #334155;
+
+  font-size: 14px;
   font-weight: 600;
-  color: #0f172a;
 }
 
-/* FORMULAIRE */
+
+/* =========================
+   FORMULAIRE
+========================= */
 
 .form-group {
-  margin-bottom: 25px;
+  margin-bottom: 22px;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 10px;
-  font-size: 15px;
+
+  margin-bottom: 8px;
+
+  color: #334155;
+
+  font-size: 14px;
   font-weight: 600;
-  color: #0f172a;
 }
 
 .form-group input,
 .form-group textarea {
   display: block;
+
   width: 100%;
-  border: 1px solid #cbd5e1;
-  border-radius: 7px;
-  padding: 14px;
+
+  padding: 13px 14px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+
   background: #ffffff;
-  color: #0f172a;
+
+  color: #334155;
+
   font-family: Arial, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
+
+  transition: 0.2s ease;
 }
 
 .form-group input {
-  height: 50px;
+  height: 46px;
 }
 
 .form-group textarea {
   min-height: 140px;
+
   resize: vertical;
 }
 
@@ -188,141 +326,197 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #0796a0;
+
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.08);
 }
 
-/* MESSAGE DE SUCCÈS */
+
+/* =========================
+   MESSAGE DE SUCCÈS
+========================= */
 
 .success-message {
   margin: 15px 0;
-  padding: 12px 15px;
-  border-radius: 7px;
-  background: #e8f5e9;
-  color: #2e7d32;
-  font-size: 15px;
+
+  padding: 13px 16px;
+
+  border: 1px solid #bbf7d0;
+  border-radius: 9px;
+
+  background: #f0fdf4;
+
+  color: #15803d;
+
+  font-size: 14px;
   font-weight: 600;
 }
 
-/* BOUTON */
+
+/* =========================
+   ACTIONS
+========================= */
 
 .actions {
   display: flex;
   justify-content: flex-end;
+
   margin-top: 10px;
 }
 
+
+/* =========================
+   BOUTON ENREGISTRER
+========================= */
+
 .save-button {
-  height: 50px;
-  padding: 0 25px;
-  border: none;
-  border-radius: 7px;
-  background: #0796a0;
+  height: 44px;
+
+  padding: 0 20px;
+
+  border: 1px solid #2563eb;
+  border-radius: 9px;
+
+  background: #2563eb;
+
   color: #ffffff;
-  font-size: 15px;
+
+  font-size: 14px;
   font-weight: 600;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
 .save-button:hover {
-  background: #07848d;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
-/* RESPONSIVE */
 
-@media (max-width: 900px) {
-
-  .sidebar {
-    width: 210px;
-  }
-
-  .content {
-    padding: 25px;
-  }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ORDONNANCE */
+/* =========================
+   ORDONNANCE
+========================= */
 
 .ordonnance-card {
-  margin-top: 25px;
+  margin-top: 24px;
 }
 
 .ordonnance-header {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+
+  gap: 20px;
+
+  margin-bottom: 22px;
 }
 
 .ordonnance-header h2 {
-  margin: 0 0 6px;
+  margin: 0 0 5px;
 }
 
 .ordonnance-header p {
   margin: 0;
-  color: #64748b;
+
+  color: #94a3b8;
+
   font-size: 14px;
 }
+
+
+/* =========================
+   LISTE ORDONNANCE
+========================= */
 
 .ordonnance-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+
+  gap: 14px;
 }
+
+
+/* =========================
+   LIGNE ORDONNANCE
+========================= */
 
 .ordonnance-line {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1.3fr 1fr 45px;
-  gap: 15px;
+
+  grid-template-columns:
+    1.3fr 1fr 1.3fr 1fr 45px;
+
+  gap: 14px;
+
   align-items: end;
 
   padding: 18px;
 
   background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
 }
+
+
+/* =========================
+   CHAMPS ORDONNANCE
+========================= */
 
 .ordonnance-field {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
 }
 
 .ordonnance-field label {
-  font-size: 14px;
+  color: #334155;
+
+  font-size: 13px;
   font-weight: 600;
-  color: #0f172a;
 }
 
 .ordonnance-field input {
   width: 100%;
-  height: 45px;
+  height: 44px;
 
   padding: 0 12px;
 
-  border: 1px solid #cbd5e1;
-  border-radius: 7px;
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
 
   background: #ffffff;
-  color: #0f172a;
+
+  color: #334155;
 
   font-size: 14px;
+
+  transition: 0.2s ease;
 }
 
 .ordonnance-field input:focus {
   outline: none;
-  border-color: #0796a0;
+
+  border-color: #93c5fd;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.08);
 }
 
 .ordonnance-field input::placeholder {
   color: #94a3b8;
 }
 
-/* SUPPRIMER UNE LIGNE */
+
+/* =========================
+   SUPPRIMER UNE LIGNE
+========================= */
 
 .ordonnance-delete {
   display: flex;
@@ -330,66 +524,131 @@
 }
 
 .delete-line-button {
-  width: 45px;
-  height: 45px;
+  width: 44px;
+  height: 44px;
 
   border: 1px solid #fecaca;
-  border-radius: 7px;
+  border-radius: 9px;
 
   background: #ffffff;
+
   color: #dc2626;
 
   font-size: 18px;
+
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
 .delete-line-button:hover:not(:disabled) {
   background: #fef2f2;
+
+  border-color: #fca5a5;
 }
 
 .delete-line-button:disabled {
   opacity: 0.35;
+
   cursor: not-allowed;
 }
 
-/* AJOUTER UN MÉDICAMENT */
+
+/* =========================
+   AJOUTER UN MÉDICAMENT
+========================= */
 
 .add-line-button {
-  margin-top: 20px;
+  margin-top: 18px;
 
-  height: 45px;
-  padding: 0 18px;
+  height: 44px;
 
-  border: 1px solid #0796a0;
-  border-radius: 7px;
+  padding: 0 16px;
 
-  background: #ffffff;
-  color: #0796a0;
+  border: 1px solid #bfdbfe;
+  border-radius: 9px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
 
   font-size: 14px;
   font-weight: 600;
 
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
 .add-line-button:hover {
-  background: #f0fdfa;
+  background: #2563eb;
+
+  border-color: #2563eb;
+
+  color: #ffffff;
 }
 
-/* RESPONSIVE ORDONNANCE */
+
+/* =========================
+   RESPONSIVE ORDONNANCE
+========================= */
 
 @media (max-width: 1100px) {
 
   .ordonnance-line {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
   .ordonnance-delete {
     align-items: center;
   }
+
 }
 
+
+/* =========================
+   RESPONSIVE TABLETTE
+========================= */
+
+@media (max-width: 900px) {
+
+  .sidebar {
+    width: 190px;
+  }
+
+  .content {
+    margin-left: 190px;
+
+    padding: 25px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================
+   RESPONSIVE MOBILE
+========================= */
+
 @media (max-width: 700px) {
+
+  .sidebar {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+
+    padding: 20px;
+  }
+
+  .page-header h1 {
+    font-size: 25px;
+  }
 
   .ordonnance-line {
     grid-template-columns: 1fr;
@@ -398,4 +657,5 @@
   .delete-line-button {
     width: 100%;
   }
+
 }

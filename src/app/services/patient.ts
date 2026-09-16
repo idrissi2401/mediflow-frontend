@@ -1,20 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpClient,
-  HttpHeaders
-} from '@angular/common/http';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class ConsultationService {
+export class PatientService {
 
-  private apiUrl =
-    'http://localhost:8080/api/consultations';
-
+  private apiUrl = 'http://localhost:8080/api/patients';
 
   constructor(
     private http: HttpClient
@@ -27,8 +20,7 @@ export class ConsultationService {
 
   private getHeaders(): HttpHeaders {
 
-    const token =
-      localStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     return new HttpHeaders({
       Authorization: `Bearer ${token}`
@@ -37,10 +29,10 @@ export class ConsultationService {
 
 
   // =========================
-  // TOUTES LES CONSULTATIONS
+  // RÉCUPÉRER TOUS LES PATIENTS
   // =========================
 
-  getAllConsultations(): Observable<any[]> {
+  getAllPatients(): Observable<any[]> {
 
     return this.http.get<any[]>(
       this.apiUrl,
@@ -52,10 +44,10 @@ export class ConsultationService {
 
 
   // =========================
-  // CONSULTATION PAR ID
+  // RÉCUPÉRER UN PATIENT
   // =========================
 
-  getConsultationById(
+  getPatientById(
     id: number
   ): Observable<any> {
 
@@ -69,51 +61,16 @@ export class ConsultationService {
 
 
   // =========================
-  // CONSULTATION PAR
-  // RENDEZ-VOUS
+  // CRÉER UN PATIENT
   // =========================
 
-  getConsultationByRendezVousId(
-    rendezVousId: number
-  ): Observable<any> {
-
-    return this.http.get<any>(
-      `${this.apiUrl}/rendez-vous/${rendezVousId}`,
-      {
-        headers: this.getHeaders()
-      }
-    );
-  }
-
-
-  // =========================
-  // CONSULTATIONS PAR PATIENT
-  // =========================
-
-  getConsultationsByPatientId(
-    patientId: number
-  ): Observable<any[]> {
-
-    return this.http.get<any[]>(
-      `${this.apiUrl}/patient/${patientId}`,
-      {
-        headers: this.getHeaders()
-      }
-    );
-  }
-
-
-  // =========================
-  // CRÉER UNE CONSULTATION
-  // =========================
-
-  creerConsultation(
-    consultation: any
+  creerPatient(
+    patient: any
   ): Observable<any> {
 
     return this.http.post<any>(
       this.apiUrl,
-      consultation,
+      patient,
       {
         headers: this.getHeaders()
       }
@@ -122,17 +79,17 @@ export class ConsultationService {
 
 
   // =========================
-  // MODIFIER UNE CONSULTATION
+  // MODIFIER UN PATIENT
   // =========================
 
-  modifierConsultation(
+  modifierPatient(
     id: number,
-    consultation: any
+    patient: any
   ): Observable<any> {
 
     return this.http.put<any>(
       `${this.apiUrl}/${id}`,
-      consultation,
+      patient,
       {
         headers: this.getHeaders()
       }
