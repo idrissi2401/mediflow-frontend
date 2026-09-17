@@ -1,10 +1,18 @@
 import { Routes } from '@angular/router';
 
 import { Login } from './pages/login/login';
+
 import { PlanningMedecin } from './pages/planning-medecin/planning-medecin';
+
+import { PlanningAccueil } from './pages/planning-accueil/planning-accueil';
+
 import { Consultation } from './pages/consultation/consultation';
+
 import { Patients } from './pages/patients/patients';
+
 import { DossierPatient } from './pages/dossier-patient/dossier-patient';
+
+import { PatientsAccueil } from './pages/patients-accueil/patients-accueil';
 
 export const routes: Routes = [
 
@@ -16,6 +24,11 @@ export const routes: Routes = [
   {
     path: 'planning-medecin',
     component: PlanningMedecin
+  },
+
+  {
+    path: 'planning-accueil',
+    component: PlanningAccueil
   },
 
   {
@@ -31,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'patients/:id',
     component: DossierPatient
+  },
+
+  {
+    path: 'patients-accueil',
+    component: PatientsAccueil
   }
 
 ];

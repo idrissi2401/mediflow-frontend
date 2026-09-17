@@ -1,0 +1,1054 @@
+<div class="planning-page">
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <img src="/logo-mediflow.png" alt="MediFlow">
+    </div>
+
+    <nav class="menu">
+
+      <a class="menu-item active" routerLink="/planning-accueil">
+        <span class="menu-icon">📅</span>
+        <span>Planning</span>
+      </a>
+
+      <a class="menu-item" routerLink="/patients-accueil">
+        <span class="menu-icon">👤</span>
+        <span>Patients</span>
+      </a>
+
+    </nav>
+
+    <button type="button" class="logout-button" (click)="deconnexion()">
+      <span class="menu-icon">↪</span>
+      <span>Déconnexion</span>
+    </button>
+
+  </aside>
+
+
+  <!-- ========================= -->
+  <!-- CONTENU PRINCIPAL -->
+  <!-- ========================= -->
+
+  <main class="content">
+
+    <!-- EN-TÊTE -->
+
+    <header class="planning-header">
+
+      <div>
+
+        <h1>Planning général</h1>
+
+        <p>
+          Consultez et gérez les disponibilités
+          et les rendez-vous du cabinet
+        </p>
+
+      </div>
+
+
+      <!-- NAVIGATION SEMAINE -->
+
+      <div class="planning-actions">
+
+        <button type="button" class="navigation-button" (click)="semainePrecedente()" title="Semaine précédente">
+          ‹
+        </button>
+
+        <button type="button" class="navigation-button" (click)="semaineSuivante()" title="Semaine suivante">
+          ›
+        </button>
+
+        <select class="date-button" (change)="selectionnerSemaine($any($event.target).value)">
+
+          @for (
+          semaine of semainesDisponibles;
+          track semaine
+          ) {
+
+          <option [value]="formatDateComparaison(semaine)" [selected]="
+                formatDateComparaison(semaine) ===
+                formatDateComparaison(joursSemaine[0])
+              ">
+            {{ formatSemaine(semaine) }}
+          </option>
+
+          }
+
+        </select>
+
+        <button type="button" class="today-button" (click)="aujourdhui()">
+          Aujourd'hui
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ========================= -->
+    <!-- FILTRE MÉDECIN -->
+    <!-- ========================= -->
+
+    <div class="doctor-select">
+
+      <select (change)="selectionnerPersonnel($any($event.target).value)">
+
+        <option value="TOUS">
+          Planning général
+        </option>
+
+        <optgroup label="Médecins">
+
+          @for (
+          medecin of medecins();
+          track medecin.id
+          ) {
+
+          <option [value]="'MEDECIN-' + medecin.id">
+            Dr. {{ medecin.prenom }} {{ medecin.nom }}
+          </option>
+
+          }
+
+        </optgroup>
+
+        <optgroup label="Accueil">
+
+          @for (
+          accueil of accueils();
+          track accueil.id
+          ) {
+
+          <option [value]="'ACCUEIL-' + accueil.id">
+            {{ accueil.prenom }} {{ accueil.nom }} - Accueil
+          </option>
+
+          }
+
+        </optgroup>
+
+      </select>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- PLANNING -->
+    <!-- ========================= -->
+
+    <div class="calendar">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Heure</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <th>
+              {{ formatDate(jour) }}
+            </th>
+
+            }
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <!-- 09:00 -->
+
+          <tr>
+
+            <th>09:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 9, 0)" (click)="ouvrirCreneau(jour, 9, 0)">
+
+              @if (getRendezVousCreneau(jour, 9, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 9, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 09:30 -->
+
+          <tr>
+
+            <th>09:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 9, 30)" (click)="ouvrirCreneau(jour, 9, 30)">
+
+              @if (getRendezVousCreneau(jour, 9, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 9, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 10:00 -->
+
+          <tr>
+
+            <th>10:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 10, 0)" (click)="ouvrirCreneau(jour, 10, 0)">
+
+              @if (getRendezVousCreneau(jour, 10, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 10, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 10:30 -->
+
+          <tr>
+
+            <th>10:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 10, 30)" (click)="ouvrirCreneau(jour, 10, 30)">
+
+              @if (getRendezVousCreneau(jour, 10, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 10, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 11:00 -->
+
+          <tr>
+
+            <th>11:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 11, 0)" (click)="ouvrirCreneau(jour, 11, 0)">
+
+              @if (getRendezVousCreneau(jour, 11, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 11, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 11:30 -->
+
+          <tr>
+
+            <th>11:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 11, 30)" (click)="ouvrirCreneau(jour, 11, 30)">
+
+              @if (getRendezVousCreneau(jour, 11, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 11, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- ========================= -->
+          <!-- PAUSE MIDI -->
+          <!-- ========================= -->
+
+          <tr class="pause-row">
+
+            <th>12:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td class="pause"></td>
+            }
+
+          </tr>
+
+          <tr class="pause-row">
+
+            <th>12:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td class="pause"></td>
+            }
+
+          </tr>
+
+
+          <!-- 13:00 -->
+
+          <tr>
+
+            <th>13:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 13, 0)" (click)="ouvrirCreneau(jour, 13, 0)">
+
+              @if (getRendezVousCreneau(jour, 13, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 13, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 13:30 -->
+
+          <tr>
+
+            <th>13:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 13, 30)" (click)="ouvrirCreneau(jour, 13, 30)">
+
+              @if (getRendezVousCreneau(jour, 13, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 13, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 14:00 -->
+
+          <tr>
+
+            <th>14:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 14, 0)" (click)="ouvrirCreneau(jour, 14, 0)">
+
+              @if (getRendezVousCreneau(jour, 14, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 14, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 14:30 -->
+
+          <tr>
+
+            <th>14:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 14, 30)" (click)="ouvrirCreneau(jour, 14, 30)">
+
+              @if (getRendezVousCreneau(jour, 14, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 14, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 15:00 -->
+
+          <tr>
+
+            <th>15:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 15, 0)" (click)="ouvrirCreneau(jour, 15, 0)">
+
+              @if (getRendezVousCreneau(jour, 15, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 15, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 15:30 -->
+
+          <tr>
+
+            <th>15:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 15, 30)" (click)="ouvrirCreneau(jour, 15, 30)">
+
+              @if (getRendezVousCreneau(jour, 15, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 15, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 16:00 -->
+
+          <tr>
+
+            <th>16:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 16, 0)" (click)="ouvrirCreneau(jour, 16, 0)">
+
+              @if (getRendezVousCreneau(jour, 16, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 16, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 16:30 -->
+
+          <tr>
+
+            <th>16:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 16, 30)" (click)="ouvrirCreneau(jour, 16, 30)">
+
+              @if (getRendezVousCreneau(jour, 16, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 16, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 17:00 -->
+
+          <tr>
+
+            <th>17:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 17, 0)" (click)="ouvrirCreneau(jour, 17, 0)">
+
+              @if (getRendezVousCreneau(jour, 17, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 17, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 17:30 -->
+
+          <tr>
+
+            <th>17:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 17, 30)" (click)="ouvrirCreneau(jour, 17, 30)">
+
+              @if (getRendezVousCreneau(jour, 17, 30).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 17, 30).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+
+          <!-- 18:00 -->
+
+          <tr>
+
+            <th>18:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+
+            <td [class]="classeCreneau(jour, 18, 0)" (click)="ouvrirCreneau(jour, 18, 0)">
+
+              @if (getRendezVousCreneau(jour, 18, 0).length > 0) {
+
+              <span class="rdv-count">
+                {{ getRendezVousCreneau(jour, 18, 0).length }}
+                RDV
+              </span>
+
+              }
+
+            </td>
+
+            }
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- LÉGENDE -->
+    <!-- ========================= -->
+
+    <div class="legend">
+
+      <div class="legend-item">
+
+        <span class="legend-color white"></span>
+
+        <div>
+          <strong>Blanc</strong>
+          <p>Médecin et accueil disponibles</p>
+        </div>
+
+      </div>
+
+      <div class="legend-item">
+
+        <span class="legend-color green"></span>
+
+        <div>
+          <strong>Vert</strong>
+          <p>Médecin disponible uniquement</p>
+        </div>
+
+      </div>
+
+      <div class="legend-item">
+
+        <span class="legend-color blue"></span>
+
+        <div>
+          <strong>Bleu</strong>
+          <p>Accueil disponible uniquement</p>
+        </div>
+
+      </div>
+
+      <div class="legend-item">
+
+        <span class="legend-color yellow"></span>
+
+        <div>
+          <strong>Jaune</strong>
+          <p>Aucune disponibilité</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ========================= -->
+  <!-- POPUP -->
+  <!-- ========================= -->
+
+  @if (popupNouveauRendezVous) {
+
+  <div class="popup-overlay">
+
+    <div class="popup">
+
+      <div class="popup-header">
+
+        <h2>Rendez-vous</h2>
+
+        <button type="button" class="popup-close" (click)="fermerPopup()">
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="popup-content">
+
+
+        <!-- ========================= -->
+        <!-- DATE / HEURE -->
+        <!-- ========================= -->
+
+        <div class="popup-info">
+
+          <div>
+            <strong>Date</strong>
+            <span>{{ dateSelectionnee }}</span>
+          </div>
+
+          <div>
+            <strong>Heure</strong>
+            <span>{{ heureSelectionnee }}</span>
+          </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- RENDEZ-VOUS EXISTANTS -->
+        <!-- ========================= -->
+
+        <div class="rdv-existants">
+
+          <h3>Rendez-vous existants</h3>
+
+          @if (
+          getRendezVousCreneauSelectionne().length === 0
+          ) {
+
+          <div class="aucun-rdv">
+            Aucun rendez-vous sur ce créneau.
+          </div>
+
+          } @else {
+
+          @for (
+          rdv of getRendezVousCreneauSelectionne();
+          track rdv.id
+          ) {
+
+          <div class="rdv-existant-card">
+
+            <div class="rdv-existant-patient">
+              {{ rdv.patient.prenom }}
+              {{ rdv.patient.nom }}
+            </div>
+
+
+            @if (rdv.medecin) {
+
+            <div class="rdv-existant-detail">
+              <strong>Type :</strong>
+              Médical
+            </div>
+
+            <div class="rdv-existant-detail">
+              <strong>Médecin :</strong>
+              Dr. {{ rdv.medecin.prenom }}
+              {{ rdv.medecin.nom }}
+            </div>
+
+            }
+
+
+            @if (rdv.accueil) {
+
+            <div class="rdv-existant-detail">
+              <strong>Type :</strong>
+              Administratif
+            </div>
+
+            <div class="rdv-existant-detail">
+              <strong>Accueil :</strong>
+              {{ rdv.accueil.prenom }}
+              {{ rdv.accueil.nom }}
+            </div>
+
+            }
+
+
+            <div class="rdv-existant-detail">
+              <strong>Motif :</strong>
+              {{ rdv.motif }}
+            </div>
+
+
+            <!-- ANNULATION DU RDV -->
+
+            <button type="button" class="rdv-annuler-button" (click)="annulerRendezVous(rdv)">
+              Annuler le RDV
+            </button>
+
+          </div>
+
+          }
+
+          }
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- NOUVEAU RENDEZ-VOUS -->
+        <!-- ========================= -->
+
+
+        <!-- PATIENT -->
+
+        <div class="form-group">
+
+          <label>Patient</label>
+
+          <select (change)="
+                patientSelectionne =
+                  $any($event.target).value
+                    ? +$any($event.target).value
+                    : null
+              ">
+
+            <option value="">
+              Sélectionner un patient
+            </option>
+
+            @for (
+            patient of patients();
+            track patient.id
+            ) {
+
+            <option [value]="patient.id">
+              {{ patient.prenom }}
+              {{ patient.nom }}
+            </option>
+
+            }
+
+          </select>
+
+        </div>
+
+
+        <!-- TYPE -->
+
+        <div class="form-group">
+
+          <label>
+            Type de rendez-vous
+          </label>
+
+          <select (change)="
+                changerTypeRendezVous(
+                  $any($event.target).value
+                )
+              ">
+
+            <option value="MEDICAL">
+              Médical
+            </option>
+
+            <option value="ADMINISTRATIF">
+              Administratif
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- MÉDECIN -->
+
+        @if (typeRendezVous === 'MEDICAL') {
+
+        <div class="form-group">
+
+          <label>Médecin</label>
+
+          <select (change)="
+                  medecinSelectionne =
+                    $any($event.target).value
+                      ? +$any($event.target).value
+                      : null
+                ">
+
+            <option value="">
+              Sélectionner un médecin disponible
+            </option>
+
+            @for (
+            medecin of getMedecinsDisponiblesSelectionnes();
+            track medecin.id
+            ) {
+
+            <option [value]="medecin.id">
+              Dr. {{ medecin.prenom }}
+              {{ medecin.nom }}
+            </option>
+
+            }
+
+          </select>
+
+          @if (
+          getMedecinsDisponiblesSelectionnes().length === 0
+          ) {
+
+          <div class="popup-error">
+            Aucun médecin disponible sur ce créneau.
+          </div>
+
+          }
+
+        </div>
+
+        }
+
+
+        <!-- ACCUEIL -->
+
+        @if (
+        typeRendezVous === 'ADMINISTRATIF'
+        ) {
+
+        <div class="form-group">
+
+          <label>
+            Personnel d'accueil
+          </label>
+
+          <select (change)="
+                  accueilSelectionne =
+                    $any($event.target).value
+                      ? +$any($event.target).value
+                      : null
+                ">
+
+            <option value="">
+              Sélectionner une personne disponible
+            </option>
+
+            @for (
+            accueil of getAccueilsDisponiblesSelectionnes();
+            track accueil.id
+            ) {
+
+            <option [value]="accueil.id">
+              {{ accueil.prenom }}
+              {{ accueil.nom }}
+            </option>
+
+            }
+
+          </select>
+
+          @if (
+          getAccueilsDisponiblesSelectionnes().length === 0
+          ) {
+
+          <div class="popup-error">
+            Aucune personne de l'accueil disponible
+            sur ce créneau.
+          </div>
+
+          }
+
+        </div>
+
+        }
+
+
+        <!-- MOTIF -->
+
+        <div class="form-group">
+
+          <label>Motif</label>
+
+          <textarea rows="3" placeholder="Motif du rendez-vous" (input)="
+                motif =
+                  $any($event.target).value
+              ">
+            </textarea>
+
+        </div>
+
+
+        <!-- ERREUR -->
+
+        @if (erreurCreation) {
+
+        <div class="popup-error">
+          {{ erreurCreation }}
+        </div>
+
+        }
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- ACTIONS -->
+      <!-- ========================= -->
+
+      <div class="popup-actions">
+
+        <button type="button" class="popup-cancel" (click)="fermerPopup()">
+          Fermer
+        </button>
+
+        <button type="button" class="popup-create" [disabled]="creationEnCours" (click)="creerRendezVous()">
+
+          @if (creationEnCours) {
+
+          Création...
+
+          } @else {
+
+          Créer le rendez-vous
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  }
+
+</div>

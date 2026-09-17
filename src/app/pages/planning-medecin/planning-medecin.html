@@ -176,235 +176,210 @@
 
         <tbody>
 
-
-          <!-- 08H -->
-
+          <!-- 09:00 -->
           <tr>
+            <th>09:00</th>
 
-            <th>
-              08:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 8)" (click)="ouvrirRendezVous(jour, 8)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 9, 0)" (click)="ouvrirRendezVous(jour, 9, 0)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 09H -->
-
+          <!-- 09:30 -->
           <tr>
+            <th>09:30</th>
 
-            <th>
-              09:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 9)" (click)="ouvrirRendezVous(jour, 9)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 9, 30)" (click)="ouvrirRendezVous(jour, 9, 30)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 10H -->
-
+          <!-- 10:00 -->
           <tr>
+            <th>10:00</th>
 
-            <th>
-              10:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 10)" (click)="ouvrirRendezVous(jour, 10)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 10, 0)" (click)="ouvrirRendezVous(jour, 10, 0)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 11H -->
-
+          <!-- 10:30 -->
           <tr>
+            <th>10:30</th>
 
-            <th>
-              11:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 11)" (click)="ouvrirRendezVous(jour, 11)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 10, 30)" (click)="ouvrirRendezVous(jour, 10, 30)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 12H -->
-
+          <!-- 11:00 -->
           <tr>
+            <th>11:00</th>
 
-            <th>
-              12:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 12)" (click)="ouvrirRendezVous(jour, 12)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 11, 0)" (click)="ouvrirRendezVous(jour, 11, 0)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 13H -->
-
+          <!-- 11:30 -->
           <tr>
+            <th>11:30</th>
 
-            <th>
-              13:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 13)" (click)="ouvrirRendezVous(jour, 13)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 11, 30)" (click)="ouvrirRendezVous(jour, 11, 30)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 14H -->
+          <!-- PAUSE 12:00 -->
+          <tr class="pause-row">
+            <th>12:00</th>
 
-          <tr>
-
-            <th>
-              14:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 14)" (click)="ouvrirRendezVous(jour, 14)">
-            </td>
-
+            @for (jour of joursSemaine; track jour) {
+            <td class="pause"></td>
             }
-
           </tr>
 
 
-          <!-- 15H -->
+          <!-- PAUSE 12:30 -->
+          <tr class="pause-row">
+            <th>12:30</th>
 
-          <tr>
-
-            <th>
-              15:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 15)" (click)="ouvrirRendezVous(jour, 15)">
-            </td>
-
+            @for (jour of joursSemaine; track jour) {
+            <td class="pause"></td>
             }
-
           </tr>
 
 
-          <!-- 16H -->
-
+          <!-- 13:00 -->
           <tr>
+            <th>13:00</th>
 
-            <th>
-              16:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 16)" (click)="ouvrirRendezVous(jour, 16)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 13, 0)" (click)="ouvrirRendezVous(jour, 13, 0)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 17H -->
-
+          <!-- 13:30 -->
           <tr>
+            <th>13:30</th>
 
-            <th>
-              17:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 17)" (click)="ouvrirRendezVous(jour, 17)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 13, 30)" (click)="ouvrirRendezVous(jour, 13, 30)">
             </td>
-
             }
-
           </tr>
 
 
-          <!-- 18H -->
-
+          <!-- 14:00 -->
           <tr>
+            <th>14:00</th>
 
-            <th>
-              18:00
-            </th>
-
-            @for (
-            jour of joursSemaine;
-            track jour
-            ) {
-
-            <td [class.appointment]="aRendezVous(jour, 18)" (click)="ouvrirRendezVous(jour, 18)">
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 14, 0)" (click)="ouvrirRendezVous(jour, 14, 0)">
             </td>
-
             }
+          </tr>
 
+
+          <!-- 14:30 -->
+          <tr>
+            <th>14:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 14, 30)" (click)="ouvrirRendezVous(jour, 14, 30)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 15:00 -->
+          <tr>
+            <th>15:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 15, 0)" (click)="ouvrirRendezVous(jour, 15, 0)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 15:30 -->
+          <tr>
+            <th>15:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 15, 30)" (click)="ouvrirRendezVous(jour, 15, 30)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 16:00 -->
+          <tr>
+            <th>16:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 16, 0)" (click)="ouvrirRendezVous(jour, 16, 0)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 16:30 -->
+          <tr>
+            <th>16:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 16, 30)" (click)="ouvrirRendezVous(jour, 16, 30)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 17:00 -->
+          <tr>
+            <th>17:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 17, 0)" (click)="ouvrirRendezVous(jour, 17, 0)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 17:30 -->
+          <tr>
+            <th>17:30</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 17, 30)" (click)="ouvrirRendezVous(jour, 17, 30)">
+            </td>
+            }
+          </tr>
+
+
+          <!-- 18:00 -->
+          <tr>
+            <th>18:00</th>
+
+            @for (jour of joursSemaine; track jour) {
+            <td [class.appointment]="aRendezVous(jour, 18, 0)" (click)="ouvrirRendezVous(jour, 18, 0)">
+            </td>
+            }
           </tr>
 
         </tbody>

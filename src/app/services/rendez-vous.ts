@@ -12,33 +12,87 @@ export class RendezVous {
   constructor(private http: HttpClient) {}
 
 
-  getRendezVous(): Observable<any[]> {
+  // =========================
+  // HEADERS JWT
+  // =========================
+
+  private getHeaders(): HttpHeaders {
 
     const token = localStorage.getItem('token');
 
-    const headers = new HttpHeaders({
+    return new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
 
+  }
+
+
+  // =========================
+  // RÉCUPÉRER LES RENDEZ-VOUS
+  // =========================
+
+  getRendezVous(): Observable<any[]> {
+
     return this.http.get<any[]>(
       this.apiUrl,
-      { headers }
+      {
+        headers: this.getHeaders()
+      }
     );
 
   }
 
 
+  // =========================
+  // RÉCUPÉRER UN RENDEZ-VOUS
+  // =========================
+
   getRendezVousById(id: number): Observable<any> {
-
-    const token = localStorage.getItem('token');
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
 
     return this.http.get<any>(
       `${this.apiUrl}/${id}`,
-      { headers }
+      {
+        headers: this.getHeaders()
+      }
+    );
+
+  }
+
+
+  // =========================
+  // CRÉER UN RENDEZ-VOUS
+  // =========================
+
+  creerRendezVous(
+    rendezVous: any
+  ): Observable<any> {
+
+    return this.http.post<any>(
+      this.apiUrl,
+      rendezVous,
+      {
+        headers: this.getHeaders()
+      }
+    );
+
+  }
+
+
+  // =========================
+  // MODIFIER UN RENDEZ-VOUS
+  // =========================
+
+  modifierRendezVous(
+    id: number,
+    rendezVous: any
+  ): Observable<any> {
+
+    return this.http.put<any>(
+      `${this.apiUrl}/${id}`,
+      rendezVous,
+      {
+        headers: this.getHeaders()
+      }
     );
 
   }

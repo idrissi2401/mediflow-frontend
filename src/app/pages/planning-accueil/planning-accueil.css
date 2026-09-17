@@ -627,14 +627,306 @@
 }
 
 /* =========================
+   DISPONIBILITÉS
+========================= */
+
+/* Médecin + accueil disponibles */
+.calendar tbody td.disponible-complet {
+  background: #ffffff !important;
+}
+
+/* Médecin disponible uniquement */
+.calendar tbody td.medecin-disponible {
+  background: #dcfce7 !important;
+}
+
+/* Accueil disponible uniquement */
+.calendar tbody td.accueil-disponible {
+  background: #dbeafe !important;
+}
+
+/* Aucune disponibilité */
+.calendar tbody td.indisponible {
+  background: #fef3c7 !important;
+}
+
+.legend-color.white {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.legend-color.green {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
+
+.legend-color.blue {
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
+}
+
+.legend-color.yellow {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+}
+
+/* =========================
    PAUSE MIDI
 ========================= */
 
 .calendar tbody td.pause {
-  background: #f1f5f9;
+  background: #f1f5f9 !important;
   cursor: not-allowed;
 }
 
 .calendar tbody td.pause:hover {
-  background: #f1f5f9;
+  background: #f1f5f9 !important;
+}
+
+/* =========================
+   RENDEZ-VOUS
+========================= */
+
+.calendar tbody td.appointment {
+  background: #dcfce7;
+  cursor: pointer;
+  font-weight: 600;
+  color: #166534;
+  text-align: center;
+}
+
+.calendar tbody td.appointment span {
+  font-size: 12px;
+}
+
+/* =========================
+   POPUP
+========================= */
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup {
+  width: 460px;
+  max-width: calc(100% - 40px);
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.popup-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #0f172a;
+}
+
+.popup-close {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.popup-info {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.popup-info div {
+  flex: 1;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.popup-info strong,
+.popup-info span {
+  display: block;
+}
+
+.popup-info strong {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 5px;
+}
+
+.popup-info span {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.popup-content p {
+  color: #64748b;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.popup-cancel {
+  padding: 10px 18px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+/* =========================
+   FORMULAIRE RENDEZ-VOUS
+========================= */
+
+.form-group {
+  margin-top: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  font-family: inherit;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.popup-error {
+  margin-top: 16px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.popup-create {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popup-create:hover {
+  background: #1d4ed8;
+}
+
+.popup-create:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rdv-count {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* ========================= */
+/* RENDEZ-VOUS EXISTANTS */
+/* ========================= */
+
+.rdv-existants {
+  margin-top: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.rdv-existants h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.aucun-rdv {
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.rdv-existant-card {
+  padding: 14px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.rdv-existant-card:last-child {
+  margin-bottom: 0;
+}
+
+.rdv-existant-patient {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.rdv-existant-detail {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.rdv-annuler-button {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.rdv-annuler-button:hover {
+  background: #fecaca;
 }

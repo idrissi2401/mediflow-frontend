@@ -1,6 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { RendezVous } from '../../services/rendez-vous';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-planning-medecin',
@@ -23,6 +24,10 @@ export class PlanningMedecin implements OnInit {
   ) { }
 
 
+  // =========================
+  // INITIALISATION
+  // =========================
+
   ngOnInit(): void {
 
     this.genererSemaine();
@@ -34,11 +39,32 @@ export class PlanningMedecin implements OnInit {
 
         next: (data) => {
 
-          this.rendezVous.set(data);
+          const token =
+            localStorage.getItem('token');
+
+          if (!token) {
+            return;
+          }
+
+          const decodedToken: any =
+            jwtDecode(token);
+
+          const emailMedecinConnecte =
+            decodedToken.sub;
+
+          const rendezVousDuMedecin =
+            data.filter(rdv =>
+              rdv.medecin != null &&
+              rdv.medecin.email === emailMedecinConnecte
+            );
+
+          this.rendezVous.set(
+            rendezVousDuMedecin
+          );
 
           console.log(
-            'Rendez-vous récupérés :',
-            data
+            'Rendez-vous du médecin connecté :',
+            rendezVousDuMedecin
           );
 
         },
@@ -120,15 +146,16 @@ export class PlanningMedecin implements OnInit {
 
   formatDateComparaison(date: Date): string {
 
-    const annee = date.getFullYear();
+    const annee =
+      date.getFullYear();
 
-    const mois = String(
-      date.getMonth() + 1
-    ).padStart(2, '0');
+    const mois =
+      String(date.getMonth() + 1)
+        .padStart(2, '0');
 
-    const jour = String(
-      date.getDate()
-    ).padStart(2, '0');
+    const jour =
+      String(date.getDate())
+        .padStart(2, '0');
 
     return `${annee}-${mois}-${jour}`;
 
@@ -141,7 +168,8 @@ export class PlanningMedecin implements OnInit {
 
   aRendezVous(
     date: Date,
-    heure: number
+    heure: number,
+    minute: number
   ): boolean {
 
     if (!date) {
@@ -153,7 +181,13 @@ export class PlanningMedecin implements OnInit {
 
     return this.rendezVous().some(rdv => {
 
+      // Ignorer les rendez-vous annulés
       if (rdv.annule === true) {
+        return false;
+      }
+
+      // Ignorer les rendez-vous administratifs
+      if (!rdv.medecin) {
         return false;
       }
 
@@ -165,9 +199,15 @@ export class PlanningMedecin implements OnInit {
           rdv.dateHeure.substring(11, 13)
         );
 
+      const minuteRdv =
+        Number(
+          rdv.dateHeure.substring(14, 16)
+        );
+
       return (
         dateRdv === datePlanning &&
-        heureRdv === heure
+        heureRdv === heure &&
+        minuteRdv === minute
       );
 
     });
@@ -181,7 +221,8 @@ export class PlanningMedecin implements OnInit {
 
   ouvrirRendezVous(
     date: Date,
-    heure: number
+    heure: number,
+    minute: number
   ): void {
 
     if (!date) {
@@ -194,7 +235,13 @@ export class PlanningMedecin implements OnInit {
     const rdv =
       this.rendezVous().find(rdv => {
 
+        // Ignorer les rendez-vous annulés
         if (rdv.annule === true) {
+          return false;
+        }
+
+        // Ignorer les rendez-vous administratifs
+        if (!rdv.medecin) {
           return false;
         }
 
@@ -206,9 +253,15 @@ export class PlanningMedecin implements OnInit {
             rdv.dateHeure.substring(11, 13)
           );
 
+        const minuteRdv =
+          Number(
+            rdv.dateHeure.substring(14, 16)
+          );
+
         return (
           dateRdv === datePlanning &&
-          heureRdv === heure
+          heureRdv === heure &&
+          minuteRdv === minute
         );
 
       });
@@ -271,6 +324,7 @@ export class PlanningMedecin implements OnInit {
 
   }
 
+
   // =========================
   // GÉNÉRER LISTE DES SEMAINES
   // =========================
@@ -279,7 +333,8 @@ export class PlanningMedecin implements OnInit {
 
     const aujourdHui = new Date();
 
-    const jour = aujourdHui.getDay();
+    const jour =
+      aujourdHui.getDay();
 
     const differenceLundi =
       aujourdHui.getDate() -
@@ -294,10 +349,6 @@ export class PlanningMedecin implements OnInit {
     );
 
     this.semainesDisponibles = [];
-
-    // 4 semaines avant
-    // + semaine actuelle
-    // + 4 semaines après
 
     for (let i = -4; i <= 4; i++) {
 
@@ -319,8 +370,7 @@ export class PlanningMedecin implements OnInit {
 
 
   // =========================
-  // AFFICHER UNE SEMAINE
-  // DANS LA LISTE
+  // FORMAT SEMAINE
   // =========================
 
   formatSemaine(
@@ -352,7 +402,9 @@ export class PlanningMedecin implements OnInit {
   ): void {
 
     const lundi =
-      new Date(valeur + 'T00:00:00');
+      new Date(
+        valeur + 'T00:00:00'
+      );
 
     this.joursSemaine = [];
 
@@ -373,54 +425,31 @@ export class PlanningMedecin implements OnInit {
 
   }
 
-  deconnexion(): void {
 
-    localStorage.removeItem('token');
-
-    this.router.navigate([
-      '/login'
-    ]);
-  }
-
-  afficherPeriode(): string {
-
-    if (this.joursSemaine.length === 0) {
-      return '';
-    }
-
-    const premierJour =
-      this.joursSemaine[0];
-
-    const dernierJour =
-      this.joursSemaine[
-      this.joursSemaine.length - 1
-      ];
-
-    const debut =
-      premierJour.toLocaleDateString(
-        'fr-FR',
-        {
-          day: '2-digit',
-          month: '2-digit'
-        }
-      );
-
-    const fin =
-      dernierJour.toLocaleDateString(
-        'fr-FR',
-        {
-          day: '2-digit',
-          month: '2-digit'
-        }
-      );
-
-    return `${debut} – ${fin}`;
-  }
-
+  // =========================
+  // AUJOURD'HUI
+  // =========================
 
   aujourdhui(): void {
 
     this.genererSemaine();
+
+  }
+
+
+  // =========================
+  // DÉCONNEXION
+  // =========================
+
+  deconnexion(): void {
+
+    localStorage.removeItem(
+      'token'
+    );
+
+    this.router.navigate([
+      '/login'
+    ]);
 
   }
 

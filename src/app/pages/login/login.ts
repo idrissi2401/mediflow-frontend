@@ -31,13 +31,18 @@ export class Login {
 
         // Lecture du contenu du token
         const decodedToken: any = jwtDecode(token);
+        console.log('Token complet :', decodedToken);
 
         console.log('Connexion réussie');
         console.log('Rôle :', decodedToken.role);
 
-        // Redirection du médecin
+        // Redirection selon le rôle
         if (decodedToken.role === 'MEDECIN') {
           this.router.navigate(['/planning-medecin']);
+        }
+
+        if (decodedToken.role === 'ACCUEIL') {
+          this.router.navigate(['/planning-accueil']);
         }
 
       },
