@@ -1,5 +1,14 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  signal
+} from '@angular/core';
+
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import { RendezVous } from '../../services/rendez-vous';
 import { PatientService } from '../../services/patient';
@@ -13,7 +22,7 @@ import { UtilisateurService } from '../../services/utilisateur';
   templateUrl: './planning-accueil.html',
   styleUrl: './planning-accueil.css',
 })
-export class PlanningAccueil implements OnInit {
+export class PlanningAccueil implements OnInit, OnDestroy {
 
   // =========================
   // DONNÉES
@@ -28,6 +37,8 @@ export class PlanningAccueil implements OnInit {
   semainesDisponibles: Date[] = [];
 
   personnelSelectionne: string = 'TOUS';
+
+  private intervalRafraichissement: any;
 
 
   // =========================
@@ -73,6 +84,32 @@ export class PlanningAccueil implements OnInit {
     this.chargerPatients();
     this.chargerUtilisateurs();
 
+    // Actualisation automatique
+    // toutes les 5 secondes
+    this.intervalRafraichissement =
+      setInterval(() => {
+
+        this.chargerRendezVous();
+
+      }, 5000);
+
+  }
+
+
+  // =========================
+  // ARRÊT DU RAFRAÎCHISSEMENT
+  // =========================
+
+  ngOnDestroy(): void {
+
+    if (this.intervalRafraichissement) {
+
+      clearInterval(
+        this.intervalRafraichissement
+      );
+
+    }
+
   }
 
 
@@ -87,14 +124,18 @@ export class PlanningAccueil implements OnInit {
       .subscribe({
 
         next: (data) => {
+
           this.rendezVous.set(data);
+
         },
 
         error: (error) => {
+
           console.log(
             'Erreur récupération rendez-vous :',
             error
           );
+
         }
 
       });
@@ -109,14 +150,18 @@ export class PlanningAccueil implements OnInit {
       .subscribe({
 
         next: (data) => {
+
           this.patients.set(data);
+
         },
 
         error: (error) => {
+
           console.log(
             'Erreur récupération patients :',
             error
           );
+
         }
 
       });
@@ -132,28 +177,37 @@ export class PlanningAccueil implements OnInit {
 
         next: (data) => {
 
-          const medecins = data.filter(
-            utilisateur =>
-              utilisateur.role === 'MEDECIN' &&
-              utilisateur.actif === true
+          const medecins =
+            data.filter(
+              utilisateur =>
+                utilisateur.role === 'MEDECIN' &&
+                utilisateur.actif === true
+            );
+
+          const accueils =
+            data.filter(
+              utilisateur =>
+                utilisateur.role === 'ACCUEIL' &&
+                utilisateur.actif === true
+            );
+
+          this.medecins.set(
+            medecins
           );
 
-          const accueils = data.filter(
-            utilisateur =>
-              utilisateur.role === 'ACCUEIL' &&
-              utilisateur.actif === true
+          this.accueils.set(
+            accueils
           );
-
-          this.medecins.set(medecins);
-          this.accueils.set(accueils);
 
         },
 
         error: (error) => {
+
           console.log(
             'Erreur récupération utilisateurs :',
             error
           );
+
         }
 
       });
@@ -167,37 +221,51 @@ export class PlanningAccueil implements OnInit {
 
   genererSemaine(): void {
 
-    const aujourdHui = new Date();
+    const aujourdHui =
+      new Date();
 
-    const jour = aujourdHui.getDay();
+    const jour =
+      aujourdHui.getDay();
 
     const differenceLundi =
       aujourdHui.getDate() -
       jour +
       (jour === 0 ? -6 : 1);
 
-    const lundi = new Date(aujourdHui);
+    const lundi =
+      new Date(aujourdHui);
 
-    lundi.setDate(differenceLundi);
+    lundi.setDate(
+      differenceLundi
+    );
 
     this.joursSemaine = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (
+      let i = 0;
+      i < 7;
+      i++
+    ) {
 
-      const date = new Date(lundi);
+      const date =
+        new Date(lundi);
 
       date.setDate(
         lundi.getDate() + i
       );
 
-      this.joursSemaine.push(date);
+      this.joursSemaine.push(
+        date
+      );
 
     }
 
   }
 
 
-  formatDate(date: Date): string {
+  formatDate(
+    date: Date
+  ): string {
 
     if (!date) {
       return '';
@@ -244,7 +312,8 @@ export class PlanningAccueil implements OnInit {
     valeur: string
   ): void {
 
-    this.personnelSelectionne = valeur;
+    this.personnelSelectionne =
+      valeur;
 
   }
 
@@ -257,42 +326,54 @@ export class PlanningAccueil implements OnInit {
   getRendezVousFiltres(): any[] {
 
     if (
-      this.personnelSelectionne === 'TOUS'
+      this.personnelSelectionne ===
+      'TOUS'
     ) {
+
       return this.rendezVous();
+
     }
 
     const [
       type,
       id
-    ] = this.personnelSelectionne.split('-');
+    ] =
+      this.personnelSelectionne
+        .split('-');
 
     const utilisateurId =
       Number(id);
+
 
     if (
       type === 'MEDECIN'
     ) {
 
-      return this.rendezVous().filter(
-        rdv =>
-          rdv.medecin &&
-          rdv.medecin.id === utilisateurId
-      );
+      return this.rendezVous()
+        .filter(
+          rdv =>
+            rdv.medecin &&
+            rdv.medecin.id ===
+            utilisateurId
+        );
 
     }
+
 
     if (
       type === 'ACCUEIL'
     ) {
 
-      return this.rendezVous().filter(
-        rdv =>
-          rdv.accueil &&
-          rdv.accueil.id === utilisateurId
-      );
+      return this.rendezVous()
+        .filter(
+          rdv =>
+            rdv.accueil &&
+            rdv.accueil.id ===
+            utilisateurId
+        );
 
     }
+
 
     return this.rendezVous();
 
@@ -310,34 +391,51 @@ export class PlanningAccueil implements OnInit {
   ): any[] {
 
     const datePlanning =
-      this.formatDateComparaison(date);
-
-    return this.getRendezVousFiltres().filter(rdv => {
-
-      if (rdv.annule === true) {
-        return false;
-      }
-
-      const dateRdv =
-        rdv.dateHeure.substring(0, 10);
-
-      const heureRdv =
-        Number(
-          rdv.dateHeure.substring(11, 13)
-        );
-
-      const minuteRdv =
-        Number(
-          rdv.dateHeure.substring(14, 16)
-        );
-
-      return (
-        dateRdv === datePlanning &&
-        heureRdv === heure &&
-        minuteRdv === minute
+      this.formatDateComparaison(
+        date
       );
 
-    });
+    return this
+      .getRendezVousFiltres()
+      .filter(rdv => {
+
+        if (
+          rdv.annule === true
+        ) {
+
+          return false;
+
+        }
+
+        const dateRdv =
+          rdv.dateHeure.substring(
+            0,
+            10
+          );
+
+        const heureRdv =
+          Number(
+            rdv.dateHeure.substring(
+              11,
+              13
+            )
+          );
+
+        const minuteRdv =
+          Number(
+            rdv.dateHeure.substring(
+              14,
+              16
+            )
+          );
+
+        return (
+          dateRdv === datePlanning &&
+          heureRdv === heure &&
+          minuteRdv === minute
+        );
+
+      });
 
   }
 
@@ -362,22 +460,27 @@ export class PlanningAccueil implements OnInit {
     const medecinsOccupes =
       new Set(
         rdvs
-          .filter(rdv => rdv.medecin)
-          .map(rdv => rdv.medecin.id)
+          .filter(
+            rdv => rdv.medecin
+          )
+          .map(
+            rdv => rdv.medecin.id
+          )
       );
 
-    return this.medecins().filter(
-      medecin =>
-        !medecinsOccupes.has(
-          medecin.id
-        )
-    );
+    return this.medecins()
+      .filter(
+        medecin =>
+          !medecinsOccupes.has(
+            medecin.id
+          )
+      );
 
   }
 
 
   // =========================
-  // ACCUEIL DISPONIBLE
+  // ACCUEILS DISPONIBLES
   // =========================
 
   getAccueilsDisponibles(
@@ -396,16 +499,21 @@ export class PlanningAccueil implements OnInit {
     const accueilsOccupes =
       new Set(
         rdvs
-          .filter(rdv => rdv.accueil)
-          .map(rdv => rdv.accueil.id)
+          .filter(
+            rdv => rdv.accueil
+          )
+          .map(
+            rdv => rdv.accueil.id
+          )
       );
 
-    return this.accueils().filter(
-      accueil =>
-        !accueilsOccupes.has(
-          accueil.id
-        )
-    );
+    return this.accueils()
+      .filter(
+        accueil =>
+          !accueilsOccupes.has(
+            accueil.id
+          )
+      );
 
   }
 
@@ -478,7 +586,9 @@ export class PlanningAccueil implements OnInit {
       medecinDisponible &&
       accueilDisponible
     ) {
+
       return 'disponible-complet';
+
     }
 
 
@@ -487,7 +597,9 @@ export class PlanningAccueil implements OnInit {
       medecinDisponible &&
       !accueilDisponible
     ) {
+
       return 'medecin-disponible';
+
     }
 
 
@@ -496,7 +608,9 @@ export class PlanningAccueil implements OnInit {
       !medecinDisponible &&
       accueilDisponible
     ) {
+
       return 'accueil-disponible';
+
     }
 
 
@@ -517,7 +631,9 @@ export class PlanningAccueil implements OnInit {
   ): void {
 
     const dateFormatee =
-      this.formatDateComparaison(date);
+      this.formatDateComparaison(
+        date
+      );
 
     const heureFormatee =
       String(heure)
@@ -552,23 +668,28 @@ export class PlanningAccueil implements OnInit {
   // RDV DU CRÉNEAU OUVERT
   // =========================
 
-  getRendezVousCreneauSelectionne(): any[] {
+  getRendezVousCreneauSelectionne():
+    any[] {
 
     if (
       !this.dateHeureSelectionnee
     ) {
+
       return [];
+
     }
 
-    return this.getRendezVousFiltres().filter(rdv => {
+    return this
+      .getRendezVousFiltres()
+      .filter(rdv => {
 
-      return (
-        rdv.annule === false &&
-        rdv.dateHeure ===
-        this.dateHeureSelectionnee
-      );
+        return (
+          rdv.annule === false &&
+          rdv.dateHeure ===
+          this.dateHeureSelectionnee
+        );
 
-    });
+      });
 
   }
 
@@ -578,24 +699,31 @@ export class PlanningAccueil implements OnInit {
   // POUR LE CRÉNEAU OUVERT
   // =========================
 
-  getMedecinsDisponiblesSelectionnes(): any[] {
+  getMedecinsDisponiblesSelectionnes():
+    any[] {
 
     const rdvs =
-      this.getRendezVousCreneauSelectionne();
+      this
+        .getRendezVousCreneauSelectionne();
 
     const idsOccupes =
       new Set(
         rdvs
-          .filter(rdv => rdv.medecin)
-          .map(rdv => rdv.medecin.id)
+          .filter(
+            rdv => rdv.medecin
+          )
+          .map(
+            rdv => rdv.medecin.id
+          )
       );
 
-    return this.medecins().filter(
-      medecin =>
-        !idsOccupes.has(
-          medecin.id
-        )
-    );
+    return this.medecins()
+      .filter(
+        medecin =>
+          !idsOccupes.has(
+            medecin.id
+          )
+      );
 
   }
 
@@ -605,24 +733,31 @@ export class PlanningAccueil implements OnInit {
   // POUR LE CRÉNEAU OUVERT
   // =========================
 
-  getAccueilsDisponiblesSelectionnes(): any[] {
+  getAccueilsDisponiblesSelectionnes():
+    any[] {
 
     const rdvs =
-      this.getRendezVousCreneauSelectionne();
+      this
+        .getRendezVousCreneauSelectionne();
 
     const idsOccupes =
       new Set(
         rdvs
-          .filter(rdv => rdv.accueil)
-          .map(rdv => rdv.accueil.id)
+          .filter(
+            rdv => rdv.accueil
+          )
+          .map(
+            rdv => rdv.accueil.id
+          )
       );
 
-    return this.accueils().filter(
-      accueil =>
-        !idsOccupes.has(
-          accueil.id
-        )
-    );
+    return this.accueils()
+      .filter(
+        accueil =>
+          !idsOccupes.has(
+            accueil.id
+          )
+      );
 
   }
 
@@ -635,12 +770,17 @@ export class PlanningAccueil implements OnInit {
     type: string
   ): void {
 
-    this.typeRendezVous = type;
+    this.typeRendezVous =
+      type;
 
-    this.medecinSelectionne = null;
-    this.accueilSelectionne = null;
+    this.medecinSelectionne =
+      null;
 
-    this.erreurCreation = '';
+    this.accueilSelectionne =
+      null;
+
+    this.erreurCreation =
+      '';
 
   }
 
@@ -655,7 +795,8 @@ export class PlanningAccueil implements OnInit {
 
 
     if (
-      this.patientSelectionne === null
+      this.patientSelectionne ===
+      null
     ) {
 
       this.erreurCreation =
@@ -683,11 +824,13 @@ export class PlanningAccueil implements OnInit {
     // =========================
 
     if (
-      this.typeRendezVous === 'MEDICAL'
+      this.typeRendezVous ===
+      'MEDICAL'
     ) {
 
       if (
-        this.medecinSelectionne === null
+        this.medecinSelectionne ===
+        null
       ) {
 
         this.erreurCreation =
@@ -710,7 +853,8 @@ export class PlanningAccueil implements OnInit {
     ) {
 
       if (
-        this.accueilSelectionne === null
+        this.accueilSelectionne ===
+        null
       ) {
 
         this.erreurCreation =
@@ -748,7 +892,8 @@ export class PlanningAccueil implements OnInit {
 
 
     if (
-      this.typeRendezVous === 'MEDICAL'
+      this.typeRendezVous ===
+      'MEDICAL'
     ) {
 
       nouveauRendezVous.medecin = {
@@ -770,7 +915,8 @@ export class PlanningAccueil implements OnInit {
     }
 
 
-    this.creationEnCours = true;
+    this.creationEnCours =
+      true;
 
     console.log(
       'RDV envoyé :',
@@ -800,7 +946,8 @@ export class PlanningAccueil implements OnInit {
             false;
 
           if (
-            typeof error.error === 'string'
+            typeof error.error ===
+            'string'
           ) {
 
             this.erreurCreation =

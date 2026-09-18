@@ -1,0 +1,269 @@
+<div class="dossier-page">
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <img src="/logo-mediflow.png" alt="MediFlow">
+    </div>
+
+    <nav class="menu">
+
+      <a
+        class="menu-item"
+        routerLink="/planning-accueil"
+      >
+        <span class="menu-icon">📅</span>
+        <span>Planning</span>
+      </a>
+
+      <a
+        class="menu-item active"
+        routerLink="/patients-accueil"
+      >
+        <span class="menu-icon">👤</span>
+        <span>Patients</span>
+      </a>
+
+    </nav>
+
+    <button
+      type="button"
+      class="logout-button"
+      (click)="deconnexion()"
+    >
+      <span class="menu-icon">↪</span>
+      <span>Déconnexion</span>
+    </button>
+
+  </aside>
+
+
+  <!-- ========================= -->
+  <!-- CONTENU PRINCIPAL -->
+  <!-- ========================= -->
+
+  <main class="content">
+
+    <!-- ========================= -->
+    <!-- RETOUR -->
+    <!-- ========================= -->
+
+    <div class="back-container">
+
+      <a
+        routerLink="/patients-accueil"
+        class="back-link"
+      >
+        ← Retour aux patients
+      </a>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- CHARGEMENT -->
+    <!-- ========================= -->
+
+    @if (chargement) {
+
+      <div class="state-card">
+
+        <p>
+          Chargement du dossier patient...
+        </p>
+
+      </div>
+
+    }
+
+
+    <!-- ========================= -->
+    <!-- ERREUR -->
+    <!-- ========================= -->
+
+    @if (erreur) {
+
+      <div class="error-message">
+
+        {{ erreur }}
+
+      </div>
+
+    }
+
+
+    <!-- ========================= -->
+    <!-- DOSSIER PATIENT -->
+    <!-- ========================= -->
+
+    @if (
+      !chargement &&
+      !erreur &&
+      patient
+    ) {
+
+      <!-- ========================= -->
+      <!-- HEADER PATIENT -->
+      <!-- ========================= -->
+
+      <header class="patient-header">
+
+        <div class="patient-header-left">
+
+          <div class="patient-avatar">
+
+            {{ patient.prenom?.charAt(0) }}
+            {{ patient.nom?.charAt(0) }}
+
+          </div>
+
+          <div>
+
+            <span class="patient-number">
+              Patient #{{ patient.id }}
+            </span>
+
+            <h1>
+              {{ patient.prenom }}
+              {{ patient.nom }}
+            </h1>
+
+            <p>
+              Dossier patient
+            </p>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- ========================= -->
+      <!-- INFORMATIONS PERSONNELLES -->
+      <!-- ========================= -->
+
+      <section class="dossier-card">
+
+        <div class="card-header">
+
+          <div>
+
+            <h2>
+              Informations personnelles
+            </h2>
+
+            <p>
+              Coordonnées et informations générales
+              du patient
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="information-grid">
+
+          <!-- NOM -->
+
+          <div class="information-item">
+
+            <span class="information-label">
+              Nom
+            </span>
+
+            <strong>
+              {{ patient.nom }}
+            </strong>
+
+          </div>
+
+
+          <!-- PRÉNOM -->
+
+          <div class="information-item">
+
+            <span class="information-label">
+              Prénom
+            </span>
+
+            <strong>
+              {{ patient.prenom }}
+            </strong>
+
+          </div>
+
+
+          <!-- DATE DE NAISSANCE -->
+
+          <div class="information-item">
+
+            <span class="information-label">
+              Date de naissance
+            </span>
+
+            <strong>
+              {{ patient.dateNaissance || '-' }}
+            </strong>
+
+          </div>
+
+
+          <!-- TÉLÉPHONE -->
+
+          <div class="information-item">
+
+            <span class="information-label">
+              Téléphone
+            </span>
+
+            <strong>
+              {{ patient.telephone || '-' }}
+            </strong>
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="information-item">
+
+            <span class="information-label">
+              Email
+            </span>
+
+            <strong>
+              {{ patient.email || '-' }}
+            </strong>
+
+          </div>
+
+
+          <!-- ADRESSE -->
+
+          <div class="information-item">
+
+            <span class="information-label">
+              Adresse
+            </span>
+
+            <strong>
+              {{ patient.adresse || '-' }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
+
+</div>

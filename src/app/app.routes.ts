@@ -14,6 +14,8 @@ import { DossierPatient } from './pages/dossier-patient/dossier-patient';
 
 import { PatientsAccueil } from './pages/patients-accueil/patients-accueil';
 
+import { DossierPatientAccueil } from './pages/dossier-patient-accueil/dossier-patient-accueil';
+
 export const routes: Routes = [
 
   {
@@ -49,6 +51,11 @@ export const routes: Routes = [
   {
     path: 'patients-accueil',
     component: PatientsAccueil
-  }
+  },
+
+  {
+    path: 'patients-accueil/:id',
+    component: DossierPatientAccueil
+  },
 
 ];

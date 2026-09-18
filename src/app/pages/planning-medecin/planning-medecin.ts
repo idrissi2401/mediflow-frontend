@@ -1,5 +1,15 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  signal
+} from '@angular/core';
+
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
+
 import { RendezVous } from '../../services/rendez-vous';
 import { jwtDecode } from 'jwt-decode';
 
@@ -11,12 +21,15 @@ import { jwtDecode } from 'jwt-decode';
   templateUrl: './planning-medecin.html',
   styleUrl: './planning-medecin.css',
 })
-export class PlanningMedecin implements OnInit {
+export class PlanningMedecin implements OnInit, OnDestroy {
 
   rendezVous = signal<any[]>([]);
 
   joursSemaine: Date[] = [];
   semainesDisponibles: Date[] = [];
+
+  private intervalRafraichissement: any;
+
 
   constructor(
     private rendezVousService: RendezVous,
@@ -32,6 +45,44 @@ export class PlanningMedecin implements OnInit {
 
     this.genererSemaine();
     this.genererSemainesDisponibles();
+
+    // Premier chargement
+    this.chargerRendezVous();
+
+    // Actualisation automatique
+    // toutes les 5 secondes
+    this.intervalRafraichissement =
+      setInterval(() => {
+
+        this.chargerRendezVous();
+
+      }, 5000);
+
+  }
+
+
+  // =========================
+  // ARRÊT DU RAFRAÎCHISSEMENT
+  // =========================
+
+  ngOnDestroy(): void {
+
+    if (this.intervalRafraichissement) {
+
+      clearInterval(
+        this.intervalRafraichissement
+      );
+
+    }
+
+  }
+
+
+  // =========================
+  // CHARGER LES RENDEZ-VOUS
+  // =========================
+
+  chargerRendezVous(): void {
 
     this.rendezVousService
       .getRendezVous()
@@ -55,15 +106,11 @@ export class PlanningMedecin implements OnInit {
           const rendezVousDuMedecin =
             data.filter(rdv =>
               rdv.medecin != null &&
-              rdv.medecin.email === emailMedecinConnecte
+              rdv.medecin.email ===
+              emailMedecinConnecte
             );
 
           this.rendezVous.set(
-            rendezVousDuMedecin
-          );
-
-          console.log(
-            'Rendez-vous du médecin connecté :',
             rendezVousDuMedecin
           );
 
@@ -91,28 +138,39 @@ export class PlanningMedecin implements OnInit {
 
     const aujourdHui = new Date();
 
-    const jour = aujourdHui.getDay();
+    const jour =
+      aujourdHui.getDay();
 
     const differenceLundi =
       aujourdHui.getDate() -
       jour +
       (jour === 0 ? -6 : 1);
 
-    const lundi = new Date(aujourdHui);
+    const lundi =
+      new Date(aujourdHui);
 
-    lundi.setDate(differenceLundi);
+    lundi.setDate(
+      differenceLundi
+    );
 
     this.joursSemaine = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (
+      let i = 0;
+      i < 7;
+      i++
+    ) {
 
-      const date = new Date(lundi);
+      const date =
+        new Date(lundi);
 
       date.setDate(
         lundi.getDate() + i
       );
 
-      this.joursSemaine.push(date);
+      this.joursSemaine.push(
+        date
+      );
 
     }
 
@@ -123,7 +181,9 @@ export class PlanningMedecin implements OnInit {
   // FORMAT DATE
   // =========================
 
-  formatDate(date: Date): string {
+  formatDate(
+    date: Date
+  ): string {
 
     if (!date) {
       return '';
@@ -144,18 +204,22 @@ export class PlanningMedecin implements OnInit {
   // FORMAT COMPARAISON
   // =========================
 
-  formatDateComparaison(date: Date): string {
+  formatDateComparaison(
+    date: Date
+  ): string {
 
     const annee =
       date.getFullYear();
 
     const mois =
-      String(date.getMonth() + 1)
-        .padStart(2, '0');
+      String(
+        date.getMonth() + 1
+      ).padStart(2, '0');
 
     const jour =
-      String(date.getDate())
-        .padStart(2, '0');
+      String(
+        date.getDate()
+      ).padStart(2, '0');
 
     return `${annee}-${mois}-${jour}`;
 
@@ -177,40 +241,56 @@ export class PlanningMedecin implements OnInit {
     }
 
     const datePlanning =
-      this.formatDateComparaison(date);
-
-    return this.rendezVous().some(rdv => {
-
-      // Ignorer les rendez-vous annulés
-      if (rdv.annule === true) {
-        return false;
-      }
-
-      // Ignorer les rendez-vous administratifs
-      if (!rdv.medecin) {
-        return false;
-      }
-
-      const dateRdv =
-        rdv.dateHeure.substring(0, 10);
-
-      const heureRdv =
-        Number(
-          rdv.dateHeure.substring(11, 13)
-        );
-
-      const minuteRdv =
-        Number(
-          rdv.dateHeure.substring(14, 16)
-        );
-
-      return (
-        dateRdv === datePlanning &&
-        heureRdv === heure &&
-        minuteRdv === minute
+      this.formatDateComparaison(
+        date
       );
 
-    });
+    return this.rendezVous()
+      .some(rdv => {
+
+        // Ignorer les rendez-vous annulés
+        if (
+          rdv.annule === true
+        ) {
+          return false;
+        }
+
+        // Ignorer les rendez-vous administratifs
+        if (
+          !rdv.medecin
+        ) {
+          return false;
+        }
+
+        const dateRdv =
+          rdv.dateHeure.substring(
+            0,
+            10
+          );
+
+        const heureRdv =
+          Number(
+            rdv.dateHeure.substring(
+              11,
+              13
+            )
+          );
+
+        const minuteRdv =
+          Number(
+            rdv.dateHeure.substring(
+              14,
+              16
+            )
+          );
+
+        return (
+          dateRdv === datePlanning &&
+          heureRdv === heure &&
+          minuteRdv === minute
+        );
+
+      });
 
   }
 
@@ -230,41 +310,57 @@ export class PlanningMedecin implements OnInit {
     }
 
     const datePlanning =
-      this.formatDateComparaison(date);
+      this.formatDateComparaison(
+        date
+      );
 
     const rdv =
-      this.rendezVous().find(rdv => {
+      this.rendezVous()
+        .find(rdv => {
 
-        // Ignorer les rendez-vous annulés
-        if (rdv.annule === true) {
-          return false;
-        }
+          // Ignorer les rendez-vous annulés
+          if (
+            rdv.annule === true
+          ) {
+            return false;
+          }
 
-        // Ignorer les rendez-vous administratifs
-        if (!rdv.medecin) {
-          return false;
-        }
+          // Ignorer les rendez-vous administratifs
+          if (
+            !rdv.medecin
+          ) {
+            return false;
+          }
 
-        const dateRdv =
-          rdv.dateHeure.substring(0, 10);
+          const dateRdv =
+            rdv.dateHeure.substring(
+              0,
+              10
+            );
 
-        const heureRdv =
-          Number(
-            rdv.dateHeure.substring(11, 13)
+          const heureRdv =
+            Number(
+              rdv.dateHeure.substring(
+                11,
+                13
+              )
+            );
+
+          const minuteRdv =
+            Number(
+              rdv.dateHeure.substring(
+                14,
+                16
+              )
+            );
+
+          return (
+            dateRdv === datePlanning &&
+            heureRdv === heure &&
+            minuteRdv === minute
           );
 
-        const minuteRdv =
-          Number(
-            rdv.dateHeure.substring(14, 16)
-          );
-
-        return (
-          dateRdv === datePlanning &&
-          heureRdv === heure &&
-          minuteRdv === minute
-        );
-
-      });
+        });
 
 
     if (rdv) {
@@ -286,18 +382,20 @@ export class PlanningMedecin implements OnInit {
   semainePrecedente(): void {
 
     this.joursSemaine =
-      this.joursSemaine.map(date => {
+      this.joursSemaine.map(
+        date => {
 
-        const nouvelleDate =
-          new Date(date);
+          const nouvelleDate =
+            new Date(date);
 
-        nouvelleDate.setDate(
-          nouvelleDate.getDate() - 7
-        );
+          nouvelleDate.setDate(
+            nouvelleDate.getDate() - 7
+          );
 
-        return nouvelleDate;
+          return nouvelleDate;
 
-      });
+        }
+      );
 
   }
 
@@ -309,18 +407,20 @@ export class PlanningMedecin implements OnInit {
   semaineSuivante(): void {
 
     this.joursSemaine =
-      this.joursSemaine.map(date => {
+      this.joursSemaine.map(
+        date => {
 
-        const nouvelleDate =
-          new Date(date);
+          const nouvelleDate =
+            new Date(date);
 
-        nouvelleDate.setDate(
-          nouvelleDate.getDate() + 7
-        );
+          nouvelleDate.setDate(
+            nouvelleDate.getDate() + 7
+          );
 
-        return nouvelleDate;
+          return nouvelleDate;
 
-      });
+        }
+      );
 
   }
 
@@ -331,7 +431,8 @@ export class PlanningMedecin implements OnInit {
 
   genererSemainesDisponibles(): void {
 
-    const aujourdHui = new Date();
+    const aujourdHui =
+      new Date();
 
     const jour =
       aujourdHui.getDay();
@@ -350,7 +451,11 @@ export class PlanningMedecin implements OnInit {
 
     this.semainesDisponibles = [];
 
-    for (let i = -4; i <= 4; i++) {
+    for (
+      let i = -4;
+      i <= 4;
+      i++
+    ) {
 
       const lundi =
         new Date(lundiActuel);
@@ -408,7 +513,11 @@ export class PlanningMedecin implements OnInit {
 
     this.joursSemaine = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (
+      let i = 0;
+      i < 7;
+      i++
+    ) {
 
       const date =
         new Date(lundi);
