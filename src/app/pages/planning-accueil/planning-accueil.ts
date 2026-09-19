@@ -90,6 +90,8 @@ export class PlanningAccueil implements OnInit, OnDestroy {
       setInterval(() => {
 
         this.chargerRendezVous();
+        this.chargerPatients();
+        this.chargerUtilisateurs();
 
       }, 5000);
 

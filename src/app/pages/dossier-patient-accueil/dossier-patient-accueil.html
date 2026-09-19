@@ -144,6 +144,21 @@
 
 
       <!-- ========================= -->
+      <!-- SUCCÈS MODIFICATION -->
+      <!-- ========================= -->
+
+      @if (succesModification) {
+
+        <div class="success-message">
+
+          {{ succesModification }}
+
+        </div>
+
+      }
+
+
+      <!-- ========================= -->
       <!-- INFORMATIONS PERSONNELLES -->
       <!-- ========================= -->
 
@@ -164,101 +179,292 @@
 
           </div>
 
-        </div>
 
+          @if (!modificationEnCours) {
 
-        <div class="information-grid">
+            <button
+              type="button"
+              class="edit-button"
+              (click)="modifierPatient()"
+            >
+              Modifier
+            </button>
 
-          <!-- NOM -->
-
-          <div class="information-item">
-
-            <span class="information-label">
-              Nom
-            </span>
-
-            <strong>
-              {{ patient.nom }}
-            </strong>
-
-          </div>
-
-
-          <!-- PRÉNOM -->
-
-          <div class="information-item">
-
-            <span class="information-label">
-              Prénom
-            </span>
-
-            <strong>
-              {{ patient.prenom }}
-            </strong>
-
-          </div>
-
-
-          <!-- DATE DE NAISSANCE -->
-
-          <div class="information-item">
-
-            <span class="information-label">
-              Date de naissance
-            </span>
-
-            <strong>
-              {{ patient.dateNaissance || '-' }}
-            </strong>
-
-          </div>
-
-
-          <!-- TÉLÉPHONE -->
-
-          <div class="information-item">
-
-            <span class="information-label">
-              Téléphone
-            </span>
-
-            <strong>
-              {{ patient.telephone || '-' }}
-            </strong>
-
-          </div>
-
-
-          <!-- EMAIL -->
-
-          <div class="information-item">
-
-            <span class="information-label">
-              Email
-            </span>
-
-            <strong>
-              {{ patient.email || '-' }}
-            </strong>
-
-          </div>
-
-
-          <!-- ADRESSE -->
-
-          <div class="information-item">
-
-            <span class="information-label">
-              Adresse
-            </span>
-
-            <strong>
-              {{ patient.adresse || '-' }}
-            </strong>
-
-          </div>
+          }
 
         </div>
+
+
+        <!-- ========================= -->
+        <!-- MODE CONSULTATION -->
+        <!-- ========================= -->
+
+        @if (!modificationEnCours) {
+
+          <div class="information-grid">
+
+            <!-- NOM -->
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Nom
+              </span>
+
+              <strong>
+                {{ patient.nom }}
+              </strong>
+
+            </div>
+
+
+            <!-- PRÉNOM -->
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Prénom
+              </span>
+
+              <strong>
+                {{ patient.prenom }}
+              </strong>
+
+            </div>
+
+
+            <!-- DATE DE NAISSANCE -->
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Date de naissance
+              </span>
+
+              <strong>
+                {{ patient.dateNaissance || '-' }}
+              </strong>
+
+            </div>
+
+
+            <!-- TÉLÉPHONE -->
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Téléphone
+              </span>
+
+              <strong>
+                {{ patient.telephone || '-' }}
+              </strong>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Email
+              </span>
+
+              <strong>
+                {{ patient.email || '-' }}
+              </strong>
+
+            </div>
+
+
+            <!-- ADRESSE -->
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Adresse
+              </span>
+
+              <strong>
+                {{ patient.adresse || '-' }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ========================= -->
+        <!-- MODE MODIFICATION -->
+        <!-- ========================= -->
+
+        @if (modificationEnCours) {
+
+          <div class="edit-form">
+
+            <div class="edit-grid">
+
+              <!-- NOM -->
+
+              <div class="form-group">
+
+                <label>
+                  Nom *
+                </label>
+
+                <input
+                  type="text"
+                  [value]="nom"
+                  (input)="nom = $any($event.target).value"
+                >
+
+              </div>
+
+
+              <!-- PRÉNOM -->
+
+              <div class="form-group">
+
+                <label>
+                  Prénom *
+                </label>
+
+                <input
+                  type="text"
+                  [value]="prenom"
+                  (input)="prenom = $any($event.target).value"
+                >
+
+              </div>
+
+
+              <!-- DATE DE NAISSANCE -->
+
+              <div class="form-group">
+
+                <label>
+                  Date de naissance *
+                </label>
+
+                <input
+                  type="date"
+                  [value]="dateNaissance"
+                  (input)="dateNaissance = $any($event.target).value"
+                >
+
+              </div>
+
+
+              <!-- TÉLÉPHONE -->
+
+              <div class="form-group">
+
+                <label>
+                  Téléphone
+                </label>
+
+                <input
+                  type="tel"
+                  [value]="telephone"
+                  (input)="telephone = $any($event.target).value"
+                >
+
+              </div>
+
+
+              <!-- EMAIL -->
+
+              <div class="form-group">
+
+                <label>
+                  Email
+                </label>
+
+                <input
+                  type="email"
+                  [value]="email"
+                  (input)="email = $any($event.target).value"
+                >
+
+              </div>
+
+
+              <!-- ADRESSE -->
+
+              <div class="form-group">
+
+                <label>
+                  Adresse
+                </label>
+
+                <input
+                  type="text"
+                  [value]="adresse"
+                  (input)="adresse = $any($event.target).value"
+                >
+
+              </div>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ERREUR MODIFICATION -->
+            <!-- ========================= -->
+
+            @if (erreurModification) {
+
+              <div class="edit-error">
+
+                {{ erreurModification }}
+
+              </div>
+
+            }
+
+
+            <!-- ========================= -->
+            <!-- BOUTONS -->
+            <!-- ========================= -->
+
+            <div class="edit-actions">
+
+              <button
+                type="button"
+                class="cancel-button"
+                [disabled]="enregistrementEnCours"
+                (click)="annulerModification()"
+              >
+                Annuler
+              </button>
+
+              <button
+                type="button"
+                class="save-button"
+                [disabled]="enregistrementEnCours"
+                (click)="enregistrerModification()"
+              >
+
+                @if (enregistrementEnCours) {
+
+                  Enregistrement...
+
+                } @else {
+
+                  Enregistrer
+
+                }
+
+              </button>
+
+            </div>
+
+          </div>
+
+        }
 
       </section>
 

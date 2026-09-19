@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit
 } from '@angular/core';
 
@@ -24,7 +25,7 @@ import { LigneOrdonnanceService } from '../../services/ligne-ordonnance';
   templateUrl: './dossier-patient.html',
   styleUrl: './dossier-patient.css'
 })
-export class DossierPatient implements OnInit {
+export class DossierPatient implements OnInit, OnDestroy {
 
   // =========================
   // PATIENT
@@ -51,6 +52,13 @@ export class DossierPatient implements OnInit {
   erreur: string = '';
 
 
+  // =========================
+  // RAFRAÎCHISSEMENT
+  // =========================
+
+  private intervalRafraichissement: any;
+
+
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
@@ -75,6 +83,33 @@ export class DossierPatient implements OnInit {
     this.chargerPatient();
 
     this.chargerConsultations();
+
+
+    // Actualiser les informations
+    // du patient toutes les 5 secondes
+
+    this.intervalRafraichissement =
+      setInterval(() => {
+
+        this.actualiserPatient();
+
+      }, 5000);
+  }
+
+
+  // =========================
+  // ARRÊTER LE RAFRAÎCHISSEMENT
+  // =========================
+
+  ngOnDestroy(): void {
+
+    if (this.intervalRafraichissement) {
+
+      clearInterval(
+        this.intervalRafraichissement
+      );
+
+    }
   }
 
 
@@ -126,6 +161,36 @@ export class DossierPatient implements OnInit {
 
 
   // =========================
+  // ACTUALISER LE PATIENT
+  // =========================
+
+  actualiserPatient(): void {
+
+    this.patientService
+      .getPatientById(this.patientId)
+      .subscribe({
+
+        next: (data) => {
+
+          this.patient = data;
+
+          this.cdr.detectChanges();
+        },
+
+        error: (error) => {
+
+          console.log(
+            'Erreur actualisation patient :',
+            error
+          );
+
+        }
+
+      });
+  }
+
+
+  // =========================
   // CHARGER LES CONSULTATIONS
   // =========================
 
@@ -161,6 +226,7 @@ export class DossierPatient implements OnInit {
 
           // Charger l'ordonnance de
           // chaque consultation
+
           this.consultations.forEach(
             consultation => {
 
@@ -218,6 +284,7 @@ export class DossierPatient implements OnInit {
 
           // Une ordonnance existe :
           // récupérer ses médicaments
+
           this.chargerLignesOrdonnance(
             consultation,
             ordonnance.id
@@ -231,6 +298,7 @@ export class DossierPatient implements OnInit {
            * n'a simplement pas
            * d'ordonnance.
            */
+
           if (error.status === 404) {
 
             consultation.ordonnance = null;
@@ -371,6 +439,7 @@ export class DossierPatient implements OnInit {
       }
     );
   }
+
 
   // =========================
   // DÉCONNEXION
