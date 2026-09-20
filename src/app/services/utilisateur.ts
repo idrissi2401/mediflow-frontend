@@ -44,4 +44,57 @@ export class UtilisateurService {
 
   }
 
+
+  // =========================
+  // RÉCUPÉRER UN UTILISATEUR
+  // =========================
+
+  getUtilisateurById(id: number): Observable<any> {
+
+    return this.http.get<any>(
+      `${this.apiUrl}/${id}`,
+      {
+        headers: this.getHeaders()
+      }
+    );
+
+  }
+
+
+  // =========================
+  // CRÉER UN UTILISATEUR
+  // =========================
+
+  creerUtilisateur(utilisateur: any): Observable<any> {
+
+    return this.http.post<any>(
+      this.apiUrl,
+      utilisateur,
+      {
+        headers: this.getHeaders()
+      }
+    );
+
+  }
+
+
+  // =========================
+  // MODIFIER UN UTILISATEUR
+  // =========================
+
+  modifierUtilisateur(
+    id: number,
+    utilisateur: any
+  ): Observable<any> {
+
+    return this.http.put<any>(
+      `${this.apiUrl}/${id}`,
+      utilisateur,
+      {
+        headers: this.getHeaders()
+      }
+    );
+
+  }
+
 }

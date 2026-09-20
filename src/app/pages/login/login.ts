@@ -20,39 +20,104 @@ export class Login {
     private router: Router
   ) {}
 
-  connexion() {
+  connexion(): void {
 
-    this.auth.connexion(this.email, this.motDePasse).subscribe({
+    this.auth
+      .connexion(
+        this.email,
+        this.motDePasse
+      )
+      .subscribe({
 
-      next: (token) => {
+        next: (token) => {
 
-        // Enregistrement du token
-        localStorage.setItem('token', token);
+          // Enregistrement du token
+          localStorage.setItem(
+            'token',
+            token
+          );
 
-        // Lecture du contenu du token
-        const decodedToken: any = jwtDecode(token);
-        console.log('Token complet :', decodedToken);
+          // Lecture du contenu du token
+          const decodedToken: any =
+            jwtDecode(token);
 
-        console.log('Connexion réussie');
-        console.log('Rôle :', decodedToken.role);
+          console.log(
+            'Token complet :',
+            decodedToken
+          );
 
-        // Redirection selon le rôle
-        if (decodedToken.role === 'MEDECIN') {
-          this.router.navigate(['/planning-medecin']);
+          console.log(
+            'Connexion réussie'
+          );
+
+          console.log(
+            'Rôle :',
+            decodedToken.role
+          );
+
+
+          // =========================
+          // MÉDECIN
+          // =========================
+
+          if (
+            decodedToken.role ===
+            'MEDECIN'
+          ) {
+
+            this.router.navigate([
+              '/planning-medecin'
+            ]);
+
+            return;
+          }
+
+
+          // =========================
+          // ACCUEIL
+          // =========================
+
+          if (
+            decodedToken.role ===
+            'ACCUEIL'
+          ) {
+
+            this.router.navigate([
+              '/planning-accueil'
+            ]);
+
+            return;
+          }
+
+
+          // =========================
+          // ADMINISTRATEUR
+          // =========================
+
+          if (
+            decodedToken.role ===
+            'ADMIN'
+          ) {
+
+            this.router.navigate([
+              '/administration'
+            ]);
+
+            return;
+          }
+
+        },
+
+        error: (error) => {
+
+          console.log(
+            'Erreur de connexion :',
+            error
+          );
+
         }
 
-        if (decodedToken.role === 'ACCUEIL') {
-          this.router.navigate(['/planning-accueil']);
-        }
-
-      },
-
-      error: (error) => {
-        console.log('Erreur de connexion :', error);
-      }
-
-    });
-
+      });
   }
 
 }

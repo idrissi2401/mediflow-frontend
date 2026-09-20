@@ -1,0 +1,733 @@
+<div class="administration-page">
+
+  <!-- ========================= -->
+  <!-- SIDEBAR -->
+  <!-- ========================= -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <img
+        src="/logo-mediflow.png"
+        alt="MediFlow"
+      >
+    </div>
+
+    <nav class="menu">
+
+      <div class="menu-item active">
+
+        <span class="menu-icon">
+          ⚙
+        </span>
+
+        <span>
+          Utilisateurs
+        </span>
+
+      </div>
+
+    </nav>
+
+
+    <!-- ========================= -->
+    <!-- DÉCONNEXION -->
+    <!-- ========================= -->
+
+    <div class="logout-container">
+
+      <button
+        type="button"
+        class="logout-button"
+        (click)="deconnexion()"
+      >
+
+        <span class="logout-icon">
+          ↪
+        </span>
+
+        <span>
+          Déconnexion
+        </span>
+
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ========================= -->
+  <!-- CONTENU PRINCIPAL -->
+  <!-- ========================= -->
+
+  <main class="content">
+
+
+    <!-- ========================= -->
+    <!-- HEADER -->
+    <!-- ========================= -->
+
+    <header class="administration-header">
+
+      <div>
+
+        <h1>
+          Administration
+        </h1>
+
+        <p>
+          Gérez les utilisateurs de MediFlow
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="new-user-button"
+        (click)="ouvrirNouveauUtilisateur()"
+      >
+        + Nouvel utilisateur
+      </button>
+
+    </header>
+
+
+    <!-- ========================= -->
+    <!-- LISTE DES UTILISATEURS -->
+    <!-- ========================= -->
+
+    <div class="users-card">
+
+      <div class="users-card-header">
+
+        <h2>
+          Utilisateurs
+        </h2>
+
+        <span class="users-count">
+          {{ utilisateurs.length }}
+          utilisateur(s)
+        </span>
+
+      </div>
+
+
+      <!-- CHARGEMENT -->
+
+      @if (chargement) {
+
+        <div class="message">
+          Chargement des utilisateurs...
+        </div>
+
+      }
+
+
+      <!-- ERREUR -->
+
+      @if (erreur) {
+
+        <div class="error-message">
+          {{ erreur }}
+        </div>
+
+      }
+
+
+      <!-- TABLEAU -->
+
+      @if (!chargement && !erreur) {
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Utilisateur
+                </th>
+
+                <th>
+                  Email
+                </th>
+
+                <th>
+                  Rôle
+                </th>
+
+                <th>
+                  Statut
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for (
+                utilisateur of utilisateurs;
+                track utilisateur.id
+              ) {
+
+                <tr
+                  class="user-row"
+                  (click)="ouvrirUtilisateur(utilisateur)"
+                >
+
+
+                  <!-- UTILISATEUR -->
+
+                  <td>
+
+                    <div class="user-name">
+
+                      <div class="avatar">
+
+                        {{ utilisateur.prenom.charAt(0) }}
+                        {{ utilisateur.nom.charAt(0) }}
+
+                      </div>
+
+
+                      <div>
+
+                        <strong>
+
+                          {{ utilisateur.prenom }}
+                          {{ utilisateur.nom }}
+
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+                  </td>
+
+
+                  <!-- EMAIL -->
+
+                  <td class="email">
+                    {{ utilisateur.email }}
+                  </td>
+
+
+                  <!-- RÔLE -->
+
+                  <td>
+
+                    <span class="role-badge">
+
+                      @if (utilisateur.role === 'MEDECIN') {
+
+                        Médecin
+
+                      }
+
+                      @if (utilisateur.role === 'ACCUEIL') {
+
+                        Accueil
+
+                      }
+
+                      @if (utilisateur.role === 'ADMIN') {
+
+                        Administrateur
+
+                      }
+
+                    </span>
+
+                  </td>
+
+
+                  <!-- STATUT -->
+
+                  <td>
+
+                    @if (utilisateur.actif) {
+
+                      <span class="status active">
+                        Actif
+                      </span>
+
+                    } @else {
+
+                      <span class="status inactive">
+                        Inactif
+                      </span>
+
+                    }
+
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+    </div>
+
+  </main>
+
+
+  <!-- ========================= -->
+  <!-- POPUP NOUVEL UTILISATEUR -->
+  <!-- ========================= -->
+
+  @if (popupNouvelUtilisateur) {
+
+    <div class="popup-overlay">
+
+      <div class="popup">
+
+
+        <!-- HEADER -->
+
+        <div class="popup-header">
+
+          <h2>
+            Nouvel utilisateur
+          </h2>
+
+          <button
+            type="button"
+            class="popup-close"
+            (click)="fermerNouveauUtilisateur()"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <!-- CONTENU -->
+
+        <div class="popup-content">
+
+
+          <!-- NOM -->
+
+          <div class="form-group">
+
+            <label>
+              Nom
+            </label>
+
+            <input
+              type="text"
+              placeholder="Nom"
+              [value]="nom"
+              (input)="nom = $any($event.target).value"
+            >
+
+          </div>
+
+
+          <!-- PRÉNOM -->
+
+          <div class="form-group">
+
+            <label>
+              Prénom
+            </label>
+
+            <input
+              type="text"
+              placeholder="Prénom"
+              [value]="prenom"
+              (input)="prenom = $any($event.target).value"
+            >
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              placeholder="exemple@mediflow.fr"
+              [value]="email"
+              (input)="email = $any($event.target).value"
+            >
+
+          </div>
+
+
+          <!-- MOT DE PASSE -->
+
+          <div class="form-group">
+
+            <label>
+              Mot de passe
+            </label>
+
+            <input
+              type="password"
+              placeholder="Mot de passe"
+              [value]="motDePasse"
+              (input)="motDePasse = $any($event.target).value"
+            >
+
+          </div>
+
+
+          <!-- RÔLE -->
+
+          <div class="form-group">
+
+            <label>
+              Rôle
+            </label>
+
+            <select
+              [value]="role"
+              (change)="role = $any($event.target).value"
+            >
+
+              <option value="MEDECIN">
+                Médecin
+              </option>
+
+              <option value="ACCUEIL">
+                Accueil
+              </option>
+
+              <option value="ADMIN">
+                Administrateur
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- STATUT -->
+
+          <div class="form-group">
+
+            <label>
+              Statut
+            </label>
+
+            <select
+              [value]="actif ? 'true' : 'false'"
+              (change)="
+                actif =
+                  $any($event.target).value === 'true'
+              "
+            >
+
+              <option value="true">
+                Actif
+              </option>
+
+              <option value="false">
+                Inactif
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- ERREUR -->
+
+          @if (erreurCreation) {
+
+            <div class="popup-error">
+              {{ erreurCreation }}
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="popup-actions">
+
+          <button
+            type="button"
+            class="popup-cancel"
+            [disabled]="creationEnCours"
+            (click)="fermerNouveauUtilisateur()"
+          >
+            Annuler
+          </button>
+
+
+          <button
+            type="button"
+            class="popup-create"
+            [disabled]="creationEnCours"
+            (click)="creerUtilisateur()"
+          >
+
+            @if (creationEnCours) {
+
+              Création...
+
+            } @else {
+
+              Créer l'utilisateur
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- ========================= -->
+  <!-- POPUP MODIFIER UTILISATEUR -->
+  <!-- ========================= -->
+
+  @if (
+    popupUtilisateur &&
+    utilisateurSelectionne
+  ) {
+
+    <div class="popup-overlay">
+
+      <div class="popup">
+
+
+        <!-- HEADER -->
+
+        <div class="popup-header">
+
+          <h2>
+            Modifier l'utilisateur
+          </h2>
+
+          <button
+            type="button"
+            class="popup-close"
+            (click)="fermerUtilisateur()"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <!-- CONTENU -->
+
+        <div class="popup-content">
+
+
+          <!-- NOM -->
+
+          <div class="form-group">
+
+            <label>
+              Nom
+            </label>
+
+            <input
+              type="text"
+              [value]="nomModification"
+              (input)="
+                nomModification =
+                  $any($event.target).value
+              "
+            >
+
+          </div>
+
+
+          <!-- PRÉNOM -->
+
+          <div class="form-group">
+
+            <label>
+              Prénom
+            </label>
+
+            <input
+              type="text"
+              [value]="prenomModification"
+              (input)="
+                prenomModification =
+                  $any($event.target).value
+              "
+            >
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              [value]="emailModification"
+              (input)="
+                emailModification =
+                  $any($event.target).value
+              "
+            >
+
+          </div>
+
+
+          <!-- RÔLE -->
+
+          <div class="form-group">
+
+            <label>
+              Rôle
+            </label>
+
+            <select
+              [value]="roleModification"
+              (change)="
+                roleModification =
+                  $any($event.target).value
+              "
+            >
+
+              <option value="MEDECIN">
+                Médecin
+              </option>
+
+              <option value="ACCUEIL">
+                Accueil
+              </option>
+
+              <option value="ADMIN">
+                Administrateur
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- STATUT -->
+
+          <div class="form-group">
+
+            <label>
+              Statut
+            </label>
+
+            <select
+              [value]="actifModification ? 'true' : 'false'"
+              [disabled]="estUtilisateurConnecte()"
+              (change)="
+                actifModification =
+                  $any($event.target).value === 'true'
+              "
+            >
+
+              <option value="true">
+                Actif
+              </option>
+
+              <option value="false">
+                Inactif
+              </option>
+
+            </select>
+
+
+            @if (estUtilisateurConnecte()) {
+
+              <small class="status-info">
+                Vous ne pouvez pas désactiver votre propre compte.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- ERREUR -->
+
+          @if (erreurModification) {
+
+            <div class="popup-error">
+              {{ erreurModification }}
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="popup-actions">
+
+          <button
+            type="button"
+            class="popup-cancel"
+            [disabled]="modificationEnCours"
+            (click)="fermerUtilisateur()"
+          >
+            Annuler
+          </button>
+
+
+          <button
+            type="button"
+            class="popup-create"
+            [disabled]="modificationEnCours"
+            (click)="modifierUtilisateur()"
+          >
+
+            @if (modificationEnCours) {
+
+              Enregistrement...
+
+            } @else {
+
+              Enregistrer
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

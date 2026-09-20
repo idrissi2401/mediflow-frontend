@@ -16,6 +16,9 @@ import { PatientsAccueil } from './pages/patients-accueil/patients-accueil';
 
 import { DossierPatientAccueil } from './pages/dossier-patient-accueil/dossier-patient-accueil';
 
+import { Administration } from './pages/administration/administration';
+
+
 export const routes: Routes = [
 
   {
@@ -57,5 +60,10 @@ export const routes: Routes = [
     path: 'patients-accueil/:id',
     component: DossierPatientAccueil
   },
+
+  {
+    path: 'administration',
+    component: Administration
+  }
 
 ];
