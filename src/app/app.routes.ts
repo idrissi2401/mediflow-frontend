@@ -18,52 +18,105 @@ import { DossierPatientAccueil } from './pages/dossier-patient-accueil/dossier-p
 
 import { Administration } from './pages/administration/administration';
 
+import { roleGuard } from './guards/role-guard';
+
 
 export const routes: Routes = [
+
+  // =========================
+  // CONNEXION
+  // =========================
 
   {
     path: 'login',
     component: Login
   },
 
-  {
-    path: 'planning-medecin',
-    component: PlanningMedecin
-  },
+
+  // =========================
+  // MÉDECIN
+  // =========================
 
   {
-    path: 'planning-accueil',
-    component: PlanningAccueil
+    path: 'planning-medecin',
+    component: PlanningMedecin,
+    canActivate: [roleGuard],
+    data: {
+      role: 'MEDECIN'
+    }
   },
 
   {
     path: 'consultation/:id',
-    component: Consultation
+    component: Consultation,
+    canActivate: [roleGuard],
+    data: {
+      role: 'MEDECIN'
+    }
   },
 
   {
     path: 'patients',
-    component: Patients
+    component: Patients,
+    canActivate: [roleGuard],
+    data: {
+      role: 'MEDECIN'
+    }
   },
 
   {
     path: 'patients/:id',
-    component: DossierPatient
+    component: DossierPatient,
+    canActivate: [roleGuard],
+    data: {
+      role: 'MEDECIN'
+    }
+  },
+
+
+  // =========================
+  // ACCUEIL
+  // =========================
+
+  {
+    path: 'planning-accueil',
+    component: PlanningAccueil,
+    canActivate: [roleGuard],
+    data: {
+      role: 'ACCUEIL'
+    }
   },
 
   {
     path: 'patients-accueil',
-    component: PatientsAccueil
+    component: PatientsAccueil,
+    canActivate: [roleGuard],
+    data: {
+      role: 'ACCUEIL'
+    }
   },
 
   {
     path: 'patients-accueil/:id',
-    component: DossierPatientAccueil
+    component: DossierPatientAccueil,
+    canActivate: [roleGuard],
+    data: {
+      role: 'ACCUEIL'
+    }
   },
+
+
+  // =========================
+  // ADMINISTRATEUR
+  // =========================
 
   {
     path: 'administration',
-    component: Administration
+    component: Administration,
+    canActivate: [roleGuard],
+    data: {
+      role: 'ADMIN'
+    }
   }
 
 ];
